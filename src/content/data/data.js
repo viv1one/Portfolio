@@ -5,7 +5,7 @@ const userData = {
   githubUsername: "l-fifa-l",
   linkedInUrl: "https://www.linkedin.com/in/fifa/",
   designation: "Project Manager",
-  email: "vivekxcodes@gmail.com",
+  email: "vivone.corp@gmail.com",
   phone: "+91 9049872675",
   address: "Lucknow, Uttar Pradesh, India.",
   about: {
@@ -22,7 +22,7 @@ const userData = {
     currentProjectUrl: "https://www.google.com",
   },
   resumeUrl:
-    "https://drive.google.com/file/d/1YTJHbtHuwhAtaDAnLly7leeo5H3hkIkr/view?usp=sharing",
+    "https://drive.google.com/file/d/1r7Pw3eZcnQY8uiYv_6d2nNDznKtUIrfj/view?usp=sharing",
 };
 
 export default userData;
