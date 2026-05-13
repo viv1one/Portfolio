@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "ESNext",
     "lib": [
       "dom",
       "dom.iterable",
@@ -11,9 +11,9 @@
     "strict": true,
     "noEmit": true,
     "incremental": true,
-    "module": "esnext",
+    "module": "Node16",
     "esModuleInterop": true,
-    "moduleResolution": "node",
+    "moduleResolution": "Node16",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
@@ -24,6 +24,7 @@
         "name": "next"
       }
     ],
+    "typeRoots": ["./src/types", "./node_modules/@types"],
     "paths": {
       "@components/*": ["./src/components/*"],
       "@content/*": ["./src/content/*"],
@@ -32,6 +33,7 @@
     },
   },
   "include": [
+    "src",
     "next-env.d.ts",
     ".next/types/**/*.ts",
     "**/*.ts",
