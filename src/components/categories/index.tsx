@@ -1,8 +1,28 @@
 import React from "react";
 import Link from "next/link";
 import { categories } from "@lib/categories";
+import { getPosts } from "../../blogs";
 
-export function Categories() {
+/**
+ * Dynamically render only categories that have at least one post.
+ * This function fetches all posts, extracts the categories present, and
+ * filters the static `categories` list accordingly.
+ */
+export async function Categories() {
+  // Retrieve all posts from the blog data source.
+  const posts = await getPosts();
+
+  // Build a set of categories that appear in any post.
+  const presentCategories = new Set<string>();
+  posts.forEach((post) => {
+    post.categories.forEach((cat) => presentCategories.add(cat));
+  });
+
+  // Filter the predefined categories to those that actually have content.
+  const filteredCategories = categories.filter((cat) =>
+    presentCategories.has(cat)
+  );
+
   return (
     <section className="w-full py-6 md:py-12">
       <div className="container grid gap-8 px-4 md:px-6">
@@ -17,7 +37,7 @@ export function Categories() {
           </div>
         </div>
         <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {categories.map((category, index) => (
+          {filteredCategories.map((category, index) => (
             <Link
               href={`/blogs/category/${category}`}
               key={index}
