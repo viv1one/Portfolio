@@ -6,7 +6,12 @@ const withMDX = require('@next/mdx')();
 const nextConfig = {
     pageExtensions: ['js', 'jsx', 'mdx', 'ts', 'tsx'],
     images: {
-        remotePatterns: [{protocol: 'https', hostname: 'img.icons8.com'},{protocol: 'https', hostname: 'images.unsplash.com'} ],
+        remotePatterns: [
+          { protocol: 'https', hostname: 'img.icons8.com' },
+          { protocol: 'https', hostname: 'images.unsplash.com' },
+          // Allow Unsplash premium images used in post thumbnails
+          { protocol: 'https', hostname: 'plus.unsplash.com' },
+        ],
       },
   }
    
