@@ -1,5 +1,6 @@
 import { Category, categories } from "@lib/categories";
-import { Pagination } from "@components/pagination";
+// Import Pagination component using explicit index file to ensure module resolution
+import { Pagination } from "@components/pagination/index";
 import { Posts } from "@components/posts";
 import {
   getPaginatedPostsByCategory,
