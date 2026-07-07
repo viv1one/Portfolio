@@ -16,7 +16,7 @@
     "moduleResolution": "Node16",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve",
+    "jsx": "react-jsx",
     "forceConsistentCasingInFileNames": true,
     "strictNullChecks": true,
     "plugins": [
@@ -24,21 +24,35 @@
         "name": "next"
       }
     ],
-    "typeRoots": ["./src/types", "./node_modules/@types"],
+    "typeRoots": [
+      "./src/types",
+      "./node_modules/@types"
+    ],
     "paths": {
-      "@components/*": ["./src/components/*"],
-      "@content/*": ["./src/content/*"],
-      "@styles/*": ["./src/styles/*"],
-      "@lib/*": ["./src/lib/*"]
-    },
+      "@components/*": [
+        "./src/components/*"
+      ],
+      "@content/*": [
+        "./src/content/*"
+      ],
+      "@styles/*": [
+        "./src/styles/*"
+      ],
+      "@lib/*": [
+        "./src/lib/*"
+      ]
+    }
   },
   "include": [
     "src",
     "next-env.d.ts",
     ".next/types/**/*.ts",
     "**/*.ts",
-    "**/*.tsx"
-, "postcss.config.js", "tailwind.config.js"  ],
+    "**/*.tsx",
+    "postcss.config.js",
+    "tailwind.config.js",
+    ".next/dev/types/**/*.ts"
+  ],
   "exclude": [
     "node_modules"
   ]
