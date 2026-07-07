@@ -17,7 +17,11 @@ export default function RootLayout({
   // Define a pattern to match paths that should skip the layout.
   // `usePathname` can return `null` during server rendering, so we guard
   // against that possibility using optional chaining.
-  const shouldSkipLayout = pathname?.match(/\/blogs\/\d+|\/blogs\/\w+/);
+  // Skip the default layout only for individual blog post pages (e.g., /blogs/my-post)
+  // but keep it for category listings and other blog routes.
+  // The regex matches paths that start with /blogs/ followed by a slug that does not contain a slash.
+  // It explicitly excludes paths that contain '/category/' to avoid skipping layout for category pages.
+  const shouldSkipLayout = pathname?.match(/^\/blogs\/(?!category\/)[^\/]+$/);
 
   if (shouldSkipLayout) {
     return (
@@ -30,5 +34,6 @@ export default function RootLayout({
     );
   }
 
+  // For all other blog routes, wrap content with the standard PageWrap component.
   return <PageWrap title={"Blogs"}>{children}</PageWrap>;
 }

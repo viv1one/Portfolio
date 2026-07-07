@@ -44,17 +44,19 @@ export default async function Page({
   if (!posts.length) notFound();
 
   return (
-    <main>
-      <h1>
+    <main className="max-w-6xl mx-auto px-4 py-8">
+      <h1 className="text-3xl font-bold mb-6">
         Category: {category} (Page: {page})
       </h1>
       <Posts posts={posts} />
-      <Pagination
-        baseUrl={`/blogs/category/${category}/page`}
-        page={page}
-        perPage={postsPerPage}
-        total={total}
-      />
+      <div className="mt-8">
+        <Pagination
+          baseUrl={`/blogs/category/${category}/page`}
+          page={page}
+          perPage={postsPerPage}
+          total={total}
+        />
+      </div>
     </main>
   );
 }
