@@ -8,6 +8,8 @@ export interface Post {
   title: string;
   publishDate: string;
   categories: Category[];
+  // Optional short description for the post, displayed in previews.
+  excerpt?: string;
 }
 
 export const postsPerPage = 3 as const;
@@ -22,8 +24,8 @@ export async function getPosts(): Promise<Post[]> {
   const posts = await Promise.all(
     slugs.map(async ({ name }) => {
       const { metadata } = await import(`./app/blogs/(posts)/${name}/page.mdx`);
-
-      return { slug: name, ...metadata };
+      // Ensure the returned post includes the optional excerpt field.
+      return { slug: name, ...metadata } as Post;
     })
   );
 

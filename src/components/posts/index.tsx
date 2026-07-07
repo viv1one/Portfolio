@@ -4,7 +4,7 @@ import Link from "next/link";
 export function Posts({ posts }: { posts: Post[] }) {
   return (
     <div className="space-y-6">
-      {posts.map(({ slug, title, image, publishDate, categories }) => (
+      {posts.map(({ slug, title, image, publishDate, categories, excerpt }) => (
         <article key={slug} className="group relative flex flex-col md:flex-row gap-6 md:gap-8 rounded-2xl border border-border bg-card p-4 md:p-6 shadow-xs hover:border-orange-500/40 hover:shadow-md transition-all duration-300">
           
           {/* Post Image wrapper */}
@@ -37,10 +37,12 @@ export function Posts({ posts }: { posts: Post[] }) {
                   {title}
                 </Link>
               </h2>
-
-              <p className="text-sm text-muted-foreground line-clamp-2 leading-relaxed">
-                Click to read this article, explore detailed concepts, and discover structured takeaways.
-              </p>
+              {/* Optional excerpt from post metadata */}
+              {excerpt && (
+                <p className="text-sm text-muted-foreground line-clamp-2 leading-relaxed">
+                  {excerpt}
+                </p>
+              )}
             </div>
 
             <div className="text-xs font-semibold text-orange-500 group-hover:underline inline-flex items-center gap-1">
