@@ -14,8 +14,10 @@ export default function RootLayout({
 }>) {
   const pathname = usePathname();
 
-  // Define a pattern to match paths that should skip the layout
-  const shouldSkipLayout = pathname.match(/\/blogs\/\d+|\/blogs\/\w+/);
+  // Define a pattern to match paths that should skip the layout.
+  // `usePathname` can return `null` during server rendering, so we guard
+  // against that possibility using optional chaining.
+  const shouldSkipLayout = pathname?.match(/\/blogs\/\d+|\/blogs\/\w+/);
 
   if (shouldSkipLayout) {
     return (
