@@ -63,7 +63,7 @@ export async function Categories() {
 function renderIcon(category: any) {
   switch (category) {
     case "AI":
-      return <ShirtIcon className="w-8 h-8 text-gray-500 dark:text-gray-400" />;
+      return <BrainIcon className="w-8 h-8 text-gray-500 dark:text-gray-400" />;
     case "cat":
       return <ShirtIcon className="w-8 h-8 text-gray-500 dark:text-gray-400" />;
     case "rock":
@@ -78,7 +78,7 @@ function renderIcon(category: any) {
 function getDescription(category: any) {
   switch (category) {
     case "AI":
-      return "Discover the latest fashion trends.";
+      return "Explore AI insights, tutorials, and news.";
     case "cat":
       return "Find the perfect fit for any occasion.";
     case "rock":
@@ -103,6 +103,25 @@ function ShirtIcon(props: any) {
         stroke="none"
         fill="black"
         fillRule="evenodd"
+      />
+    </svg>
+  );
+}
+
+// Simple brain icon representing AI category.
+function BrainIcon(props: any) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="512"
+      height="512"
+      viewBox="0 0 512 512"
+      version="1.1"
+    >
+      <path
+        d="M256 32C150.13 32 64 118.13 64 224c0 70.69 40.31 132.09 100 162.55V448h184v-61.45c59.69-30.46 100-91.86 100-162.55 0-105.87-86.13-192-192-192zM256 384c-88.22 0-160-71.78-160-160S167.78 64 256 64s160 71.78 160 160-71.78 160-160 160z"
+        fill="currentColor"
       />
     </svg>
   );

@@ -1,12 +1,35 @@
 import { Categories } from "@components/categories";
 import { Pagination } from "@components/pagination";
 import { Posts } from "@components/posts";
-import { getPaginatedPosts, postsPerPage } from "../../blogs";
+import { getPaginatedPosts, postsPerPage, getPosts } from "../../blogs";
 import type { Metadata } from "next";
 import PageWrap from "@components/PageWrap";
 import SearchBar from "@components/search/SearchBar";
 
-export default async function Home() {
+export default async function Home({
+  searchParams,
+}: {
+  searchParams?: { q?: string };
+}) {
+  const query = searchParams?.q?.trim();
+
+  // If a search query is present, filter posts client‑side.
+  if (query && query.length > 0) {
+    const allPosts = await getPosts();
+    const filtered = allPosts.filter((post) =>
+      post.title.toLowerCase().includes(query.toLowerCase())
+    );
+    return (
+      <>
+        <SearchBar />
+        <Categories />
+        <Posts posts={filtered} />
+        {/* No pagination for search results */}
+      </>
+    );
+  }
+
+  // Default blog listing with pagination.
   const { posts, total } = await getPaginatedPosts({
     page: 1,
     limit: postsPerPage,
