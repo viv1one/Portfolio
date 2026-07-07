@@ -29,10 +29,15 @@ interface UpdateFormProps {
   socialLinks: any[];
   techStack: any[];
   handleSubmit: (formData: FormData) => Promise<void>;
-  status?: string;
-  error?: string;
-}
-
+            {error === "unauthorized" && (
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-rose-50 px-3 py-1 text-sm font-medium text-rose-700 dark:bg-rose-950 dark:text-rose-300">
+                Session expired. Please log in again.
+              </span>
+            )}
+            {error === "save-failed" && (
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-rose-50 px-3 py-1 text-sm font-medium text-rose-700 dark:bg-rose-950 dark:text-rose-300">
+                Failed to save profile. Please try again.
+              </span>
 function SectionHeader({ title, description, emoji }: { title: string; description: string; emoji: string }) {
   return (
     <div className="mb-6">
@@ -224,7 +229,7 @@ export default function UpdateForm({
         </div>
       </div>
 
-      <form action={handleSubmit} className="space-y-6">
+      <form action={handleSubmit} method="post" className="space-y-6">
         
         {/* Profile Section */}
         <section className="rounded-xl border border-slate-200 bg-white p-6 shadow-xs dark:border-slate-700 dark:bg-slate-800">

@@ -108,7 +108,15 @@ async function handleSubmit(formData: FormData) {
       iconUrl: String(entry.iconUrl ?? ''),
     })),
   };
-  savePortfolioContent(payload);
+  console.log('Payload being saved:', payload);
+  try {
+    savePortfolioContent(payload);
+  } catch (err) {
+    console.error('Error saving portfolio content:', err);
+    // Optionally, you could redirect with an error flag
+    redirect('/update?error=save-failed');
+    return;
+  }
   revalidatePath('/');
   revalidatePath('/about');
   revalidatePath('/experience');
