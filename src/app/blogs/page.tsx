@@ -37,12 +37,14 @@ export const metadata: Metadata = {
     description: "Latest articles on AI, tech, and more.",
     url: "https://viv1.vercel.app/blogs",
     siteName: "Vivek Kumar",
+    // Use a static fallback image for Open Graph. Dynamic post data is not
+    // available at build time for the metadata export.
     images: [
       {
-        url: posts[0]?.image ?? "/og-image.png",
+        url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: posts[0]?.title ?? "Blog",
+        alt: "Blog",
       },
     ],
     locale: "en_US",
