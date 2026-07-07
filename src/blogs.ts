@@ -1,6 +1,6 @@
 import { readdir } from "fs/promises";
+import { existsSync } from "fs";
 import { type Category } from "@lib/categories";
-import { ImgHTMLAttributes } from "react";
 
 export interface Post {
   image: string;
@@ -16,7 +16,7 @@ export async function getPosts(): Promise<Post[]> {
   // Retreive slugs from post routes
   const slugs = (
     await readdir("./src/app/blogs/(posts)", { withFileTypes: true })
-  ).filter((dirent) => dirent.isDirectory());
+  ).filter((dirent) => dirent.isDirectory() && existsSync(`./src/app/blogs/(posts)/${dirent.name}/page.mdx`));
 
   // Retreive metadata from MDX files
   const posts = await Promise.all(

@@ -32,10 +32,12 @@ export default function NavbarClient({ profile }: { profile: ProfileData }) {
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? " backdrop-blur-3xl " : ""
+        isScrolled 
+          ? "bg-background/80 border-b border-border/45 backdrop-blur-md shadow-xs" 
+          : "bg-transparent border-b border-transparent"
       }`}
     >
-      <div className="justify-between flex max-w-7xl mx-auto px-4 py-1">
+      <div className="justify-between flex max-w-7xl mx-auto px-6 py-3">
         <Header profile={profile} />
         <NavigationMenu />
       </div>
@@ -123,14 +125,10 @@ function NavLink({ children, href, active, desktop = false, mobile = false }: { 
   return (
     <Link
       href={href}
-      className={`px-3 py-2 rounded-md text-sm font-medium transition-colors duration-300 ${
+      className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
         active
-          ? "bg-gray-900 text-white dark:bg-gray-700 dark:text-gray-300"
-          : `hover:bg-gray-100 dark:hover:bg-gray-700 ${
-              desktop
-                ? "text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
-                : "text-gray-900 dark:text-gray-100"
-            }`
+          ? "bg-primary text-primary-foreground shadow-xs"
+          : "text-muted-foreground hover:bg-muted hover:text-foreground"
       }`}
     >
       {children}

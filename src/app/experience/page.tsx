@@ -14,30 +14,51 @@ export default function Experiences() {
 
 function Experience({ experience }: { experience: any[] }) {
   return (
-    <div className="max-w-4xl mx-auto -my-6">
+    <div className="max-w-3xl mx-auto relative border-l border-border pl-6 sm:pl-8 space-y-12">
       {experience.map((exp, idx) => (
-        <div key={idx} className="relative pl-8 sm:pl-32 py-6 group">
-          <div className="font-caveat font-medium text-2xl text-indigo-500 mb-1 sm:mb-0">
-            {exp.title}
+        <div key={idx} className="relative group">
+          
+          {/* Glowing timeline dot */}
+          <div className="absolute -left-[31px] sm:-left-[39px] top-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-background border-2 border-indigo-500 shadow-xs">
+            <span className="h-1.5 w-1.5 rounded-full bg-indigo-500 animate-ping group-hover:scale-125 transition-transform" />
           </div>
 
-          <div className="flex flex-col sm:flex-row items-start mb-1 group-last:before:hidden before:absolute before:left-2 sm:before:left-0 before:h-full before:px-px before:bg-slate-300 sm:before:ml-[6.5rem] before:self-start before:-translate-x-1/2 before:translate-y-3 after:absolute after:left-2 sm:after:left-0 after:w-2 after:h-2 after:bg-indigo-600 after:border-4 after:box-content after:border-slate-50 after:rounded-full sm:after:ml-[6.5rem] after:-translate-x-1/2 after:translate-y-1.5">
-            <time className="sm:absolute left-0 translate-y-0.5 inline-flex items-center justify-center text-xs font-semibold uppercase w-20 h-6 mb-3 sm:mb-0 text-emerald-600 bg-emerald-100 rounded-full">
-              {exp.year}
-            </time>
-            <Link
-              className="text-xl font-bold text-slate-500"
-              target="_blank"
-              href={exp.companyLink}
-            >
-              {exp.company}
-            </Link>
+          <div className="space-y-4">
+            
+            {/* Header section: Title, Year, Company */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <div className="space-y-1">
+                <h2 className="text-xl font-bold text-foreground group-hover:text-indigo-500 transition-colors">
+                  {exp.title}
+                </h2>
+                
+                <Link
+                  className="inline-flex items-center text-sm font-semibold text-muted-foreground hover:text-foreground transition-colors"
+                  target="_blank"
+                  href={exp.companyLink || "#"}
+                >
+                  {exp.company}
+                  {exp.companyLink && <span className="ml-1 text-[10px]">&nearr;</span>}
+                </Link>
+              </div>
+
+              <time className="inline-flex items-center justify-center text-xs font-bold uppercase tracking-wider text-emerald-600 bg-emerald-100 dark:bg-emerald-950/40 dark:text-emerald-400 px-3 py-1.5 rounded-full w-fit self-start sm:self-center">
+                {exp.year}
+              </time>
+            </div>
+
+            {/* Description bullet list */}
+            <div className="rounded-xl border border-border bg-card/45 backdrop-blur-xs p-5 shadow-xs">
+              <ul className="list-disc list-inside space-y-2.5 pl-0 m-0">
+                {exp.description.map((desc: string, index: number) => (
+                  <li key={index} className="text-sm text-muted-foreground leading-relaxed list-none relative pl-4 before:absolute before:left-0 before:top-2 before:h-1.5 before:w-1.5 before:rounded-full before:bg-indigo-500/60">
+                    {desc}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
           </div>
-          <div className="dark:text-slate-200 text-slate-700">
-      {exp.description.map((desc: string, index: number) => (
-        <p key={index}>{desc}</p>
-      ))}
-    </div>
         </div>
       ))}
     </div>

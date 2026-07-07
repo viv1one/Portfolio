@@ -416,10 +416,7 @@ export function getTechStack() {
 export function getAllContent() {
   return {
     profile: getProfile(),
-    experiences: getExperiences().map((entry) => ({
-      ...entry,
-      description: JSON.parse(entry.descriptionJson),
-    })),
+    experiences: getExperiences(),
     projects: getProjects(),
     socialLinks: getSocialLinks(),
     techStack: getTechStack(),

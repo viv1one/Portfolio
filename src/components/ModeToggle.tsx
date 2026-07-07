@@ -67,6 +67,5 @@ export default function Theme() {
         />
       </svg>
     </button>
-      // Applying dynamic classes based on the current theme for styling
   );
 }

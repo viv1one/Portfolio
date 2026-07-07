@@ -27,9 +27,8 @@ export default function RootLayout({
   return (
     
     <html lang="en" suppressHydrationWarning={true}>
-      <Analytics/>
       <head>
-      <link rel="icon" href="http://localhost:3000/favicon.ico" sizes="any" />
+      <link rel="icon" href="/favicon.ico" sizes="any" />
       </head>
       
       <body
@@ -46,6 +45,7 @@ export default function RootLayout({
           >
             <Navbar />
             {children}
+            <Analytics/>
           </ThemeProvider>
       </body>
     </html>

@@ -3,36 +3,55 @@ import Link from "next/link";
 
 export function Posts({ posts }: { posts: Post[] }) {
   return (
-    <ol className="space-y-4">
-    {posts.map(({ slug, title,image, publishDate, categories }) => (
-      <>
-      <li key={slug} className="bg-white">
-      <Link href={`/blogs/${slug}`}>
-      <article className="mx-auto flex max-w-md flex-col rounded-2xl bg-white px-4 shadow md:max-w-5xl md:flex-row md:items-center">
-        <div className="shrink-0 my-4 md:mr-8 md:max-w-sm">
-          <img className="rounded-2xl" src={image} alt="" />
-        </div>
-        <div className="py-4 sm:py-8">
-          <a href="#" className="mb-6 block text-2xl font-medium text-gray-700">{title}</a>
-          <p className="mb-6 text-gray-500">Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit illum consequatur quia doloremque! Similique eius enim nostrum totam.</p>
-          <div className="flex items-center">
-            <p className="ml-4 w-56">
-              <strong>Published:</strong> {new Date(publishDate).toLocaleDateString()} <strong>Categories:</strong>{" "}
-          {categories.map((cat, i) => (
-            <span key={cat}>
-              {i ? ", " : ""}
-              {cat}
-            </span>
-          ))}
-            </p>
+    <div className="space-y-6">
+      {posts.map(({ slug, title, image, publishDate, categories }) => (
+        <article key={slug} className="group relative flex flex-col md:flex-row gap-6 md:gap-8 rounded-2xl border border-border bg-card p-4 md:p-6 shadow-xs hover:border-orange-500/40 hover:shadow-md transition-all duration-300">
+          
+          {/* Post Image wrapper */}
+          <div className="w-full md:w-80 shrink-0 aspect-video md:aspect-auto md:h-44 overflow-hidden rounded-xl bg-muted">
+            <img
+              className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+              src={image}
+              alt={title}
+            />
           </div>
-        </div>
-      </article>
-      </Link>
-    </li>
-      </>
-    ))}
-  </ol>
+
+          {/* Post info content */}
+          <div className="flex-1 flex flex-col justify-between py-1 space-y-4">
+            <div className="space-y-2">
+              <div className="flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
+                <time>{new Date(publishDate).toLocaleDateString()}</time>
+                <span className="text-border">•</span>
+                <div className="flex flex-wrap gap-1">
+                  {categories.map((cat) => (
+                    <span key={cat} className="bg-muted px-2 py-0.5 rounded-full font-medium text-[10px] text-muted-foreground">
+                      {cat}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <h2 className="text-xl md:text-2xl font-bold text-foreground group-hover:text-orange-500 transition-colors">
+                <Link href={`/blogs/${slug}`} className="focus:outline-none">
+                  <span className="absolute inset-0" aria-hidden="true" />
+                  {title}
+                </Link>
+              </h2>
+
+              <p className="text-sm text-muted-foreground line-clamp-2 leading-relaxed">
+                Click to read this article, explore detailed concepts, and discover structured takeaways.
+              </p>
+            </div>
+
+            <div className="text-xs font-semibold text-orange-500 group-hover:underline inline-flex items-center gap-1">
+              Read article
+              <span>&rarr;</span>
+            </div>
+          </div>
+
+        </article>
+      ))}
+    </div>
   );
 }
 

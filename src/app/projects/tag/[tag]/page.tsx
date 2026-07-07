@@ -11,11 +11,10 @@ interface ProjectProps {
     title: string;
     desc: string;
     link: string;
-    tags?: string[];
+    tags: string[];
   };
 }
 
-// Dynamic helper to infer project tags based on keywords in title or desc
 function getProjectTags(project: { title: string; desc: string }) {
   const tags: string[] = [];
   const combined = (project.title + " " + project.desc).toLowerCase();
@@ -33,7 +32,6 @@ function getProjectTags(project: { title: string; desc: string }) {
     tags.push("Next.js", "React", "Portfolio");
   }
   
-  // Default tags if none matched
   if (tags.length === 0) {
     tags.push("Web Development", "React");
   }
@@ -41,19 +39,47 @@ function getProjectTags(project: { title: string; desc: string }) {
   return tags;
 }
 
-export default function Projects() {
-  const projects = getPortfolioProjects();
+export default async function TagPage({
+  params,
+}: {
+  params: Promise<{ tag: string }>;
+}) {
+  const resolvedParams = await params;
+  const tagQuery = decodeURIComponent(resolvedParams.tag).toLowerCase();
+  const allProjects = getPortfolioProjects();
+
+  const filteredProjects = allProjects
+    .map((proj) => ({
+      ...proj,
+      tags: getProjectTags(proj),
+    }))
+    .filter((proj) =>
+      proj.tags.some((t) => kebabCase(t) === tagQuery || t.toLowerCase() === tagQuery)
+    );
 
   return (
-    <PageWrap title="Projects">
-      <div className="grid grid-cols-1 gap-8 md:grid-cols-3 items-start px-4 md:px-0">
-        {projects.map((item, index) => {
-          const projectWithTags = {
-            ...item,
-            tags: getProjectTags(item)
-          };
-          return <Project key={index} project={projectWithTags} />;
-        })}
+    <PageWrap title={`Projects tagged "${resolvedParams.tag}"`}>
+      <div className="space-y-8 px-4 md:px-0">
+        <div className="flex justify-between items-center">
+          <p className="text-muted-foreground">
+            Showing {filteredProjects.length} projects matching this tag.
+          </p>
+          <Link href="/projects" className="text-sm font-medium text-orange-500 hover:underline">
+            &larr; Back to all projects
+          </Link>
+        </div>
+
+        {filteredProjects.length === 0 ? (
+          <div className="text-center py-20 border border-dashed border-border rounded-xl">
+            <p className="text-muted-foreground">No projects found with tag "{resolvedParams.tag}".</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-3 items-start">
+            {filteredProjects.map((item, index) => (
+              <Project key={index} project={item} />
+            ))}
+          </div>
+        )}
       </div>
     </PageWrap>
   );
@@ -107,9 +133,11 @@ function Project({ project }: ProjectProps) {
         <ul className="tags-list flex flex-wrap gap-1.5 mt-4 list-none pl-0">
           {project.tags?.map((tag, index) => (
             <li key={index}>
-              <div className="tag rounded-full text-xs bg-muted text-muted-foreground py-1 px-3 border border-border">
-                {tag}
-              </div>
+              <Link href={`/projects/tag/${kebabCase(tag)}`}>
+                <div className="tag rounded-full text-xs bg-muted text-muted-foreground py-1 px-3 border border-border hover:bg-orange-500/10 hover:text-orange-500 transition-colors cursor-pointer">
+                  {tag}
+                </div>
+              </Link>
             </li>
           ))}
         </ul>

@@ -16,109 +16,134 @@ export default function AboutMe() {
 
 function About({ userData, techStack, socialLinks }: { userData: any; techStack: any[]; socialLinks: any[] }) {
   return (
-    <>
-      <div className="-mt-14">
-        <div className="text-container max-w-6xl mx-auto">
-          <p
-            className="leading-loose text-2xl md:text-4xl font-semibold mx-4"
-            style={{ lineHeight: "3rem" }}
+    <div className="space-y-16 px-4 md:px-0">
+      
+      {/* Title Intro Block */}
+      <div className="max-w-4xl">
+        <p
+          className="text-2xl md:text-4xl font-semibold text-foreground/90 leading-relaxed md:leading-extra-loose"
+          style={{ lineHeight: "3.2rem" }}
+        >
+          {userData.about.title}. Currently working{" "}
+          <Link
+            target="_blank"
+            className="inline-flex items-center gap-1.5 rounded-lg bg-orange-500 px-3 py-1.5 text-base font-bold text-white shadow-xs hover:bg-orange-600 transition-colors"
+            href={userData.about.currentProjectUrl}
           >
-            {userData.about.title}. Currently working {" "}
-            <Link target="_blank"
-            // rel="noopener noreferrer"
-              className="bg-red-500 rounded-md px-2 py-1 text-white"
-              href={userData.about.currentProjectUrl}
-            >
-              {userData.about.currentProject} ✈️
-            </Link>
-          </p>
-        </div>
+            {userData.about.currentProject} ✈️
+          </Link>
+        </p>
       </div>
-      <div className=" px-4">
-        <div className="pt-20 grid grid-cols-1 md:grid-cols-3 max-w-6xl mx-auto gap-y-20 gap-x-20">
-          <ContactInfo userData={userData} socialLinks={socialLinks} />
-          <div className="col-span-1 md:col-span-2">
+
+      {/* Grid Layout splits Contact Block and Text Block */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 pt-8">
+        
+        {/* Left Column: Info Deck */}
+        <div className="space-y-6 lg:col-span-1">
+          <div className="sticky top-28 space-y-6">
+            <ContactInfo userData={userData} socialLinks={socialLinks} />
+          </div>
+        </div>
+
+        {/* Right Column: Narrative Biography & Tech Stack */}
+        <div className="lg:col-span-2 space-y-12">
+          
+          {/* Biography Content */}
+          <div className="space-y-6">
             {userData.about.description?.map((desc: string, idx: number) => (
               <p
                 key={idx}
-                className="text-xl text-gray-700 mb-4 dark:text-gray-300"
+                className="text-lg text-muted-foreground leading-relaxed font-normal"
               >
                 {desc}
               </p>
             ))}
-            <h1 className="bg-red-500 text-3xl rounded-md px-2 py-1 inline-block font-bold text-white">
-              Tech Stack
-            </h1>
-            <div className="flex flex-row flex-wrap mt-8">
+          </div>
+
+          {/* Tech Stack Block */}
+          <div className="space-y-6 pt-4">
+            <div className="inline-flex items-center gap-2 rounded-lg bg-primary/10 border border-primary/20 px-3 py-1 text-sm font-semibold text-primary">
+              ⚡ Skill Set
+            </div>
+            <h2 className="text-2xl font-bold tracking-tight">Technologies I Work With</h2>
+            
+            <div className="grid grid-cols-3 sm:grid-cols-4 gap-4">
               {techStack.map((item) => (
-                <img
+                <div
                   key={item.name}
-                  src={item.iconUrl}
-                  className="h-20 w-20 mx-4 my-4"
-                />
+                  className="flex flex-col items-center justify-center rounded-xl border border-border bg-card/40 backdrop-blur-xs p-4 hover:border-orange-500/50 hover:bg-card transition-all duration-300"
+                >
+                  <img
+                    src={item.iconUrl}
+                    alt={item.name}
+                    className="h-12 w-12 object-contain hover:scale-105 transition-transform duration-300"
+                  />
+                  <span className="mt-2 text-xs font-semibold text-muted-foreground text-center">{item.name}</span>
+                </div>
               ))}
             </div>
           </div>
+
         </div>
+
       </div>
-    </>
+    </div>
   );
 }
 
 function ContactInfo({ userData, socialLinks }: { userData: any; socialLinks: any[] }) {
   return (
-    <div className="inline-flex flex-col">
-      <div>
-        <h1 className="text-xl font-semibold text-gray-700 dark:text-gray-200">
-          Contact
-        </h1>
-        <p className="text-lg text-gray-500 mt-4 dark:text-gray-300">
-          For any sort help / enquiry, shoot a{" "}
+    <div className="rounded-2xl border border-border bg-card/60 backdrop-blur-md p-6 space-y-8 shadow-xs">
+      
+      {/* Contact Section */}
+      <div className="space-y-3">
+        <h3 className="text-lg font-bold text-foreground">Get In Touch</h3>
+        <p className="text-sm text-muted-foreground leading-relaxed">
+          For help, project inquiries, or simply a quick hello, drop a{" "}
           <a
             href={`mailto:${userData.email}`}
-            className="text-gray-800 border-b-2 border-gray-800 dark:border-gray-300 font-bold dark:text-gray-300"
+            className="font-bold text-foreground underline decoration-orange-500 hover:text-orange-500 transition-colors"
           >
             mail
           </a>{" "}
-          and I'll get back. I swear.
+          and I will write back.
         </p>
       </div>
-      <div className="mt-8">
-        <h1 className="text-xl font-semibold text-gray-700 dark:text-gray-200">
-          Job Opportunities
-        </h1>
-        <p className="text-lg text-gray-500 mt-4 dark:text-gray-300">
-          I'm looking for a job currently, If you see me as a good fit, check my{" "}
+
+      {/* Opportunities Section */}
+      <div className="space-y-3">
+        <h3 className="text-lg font-bold text-foreground">Opportunities</h3>
+        <p className="text-sm text-muted-foreground leading-relaxed">
+          If you have a role that matches my skills, you can review my{" "}
           <a
             href={userData.resumeUrl}
-            target="__blank"
-            className="text-gray-800 border-b-2 border-gray-800 dark:border-gray-300 font-bold dark:text-gray-300"
+            target="_blank"
+            className="font-bold text-foreground underline decoration-orange-500 hover:text-orange-500 transition-colors"
           >
             resume
           </a>{" "}
-          and I'd love to work for you.
+          or forward it along.
         </p>
       </div>
-      {/* Social Links */}
-      <h1 className="text-xl font-semibold text-gray-700 mt-8 dark:text-gray-200">
-        Social Links
-      </h1>
-      <div className="mt-4 ml-4">
-        {socialLinks.map((item) => (
-          <Link target="__blank" key={item.name} href={item.href}>
-            <div className="flex flex-row justify-start items-center">
-              <div className="flex flex-row items-center space-x-4 group">
-                <div className="my-4 dark:text-gray-300">&rarr;</div>
-                <img className="h-8 w-8" aria-hidden="true" src={item.link} />
-                <p className="text-lg text-gray-500 font-mono relative overflow-hidden dark:text-gray-300">
-                  <span className="absolute h-0.5 w-full bg-gray-400 bottom-0 transform -translate-x-24 group-hover:translate-x-0 transition duration-300"></span>
-                  {item.name}
-                </p>
-              </div>
-            </div>
-          </Link>
-        ))}
+
+      {/* Social Links Section */}
+      <div className="space-y-4 pt-2 border-t border-border">
+        <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">Social Channels</h3>
+        <div className="space-y-2">
+          {socialLinks.map((item) => (
+            <Link
+              target="_blank"
+              key={item.name}
+              href={item.href}
+              className="flex items-center gap-3 rounded-lg border border-border bg-card/30 p-2.5 hover:border-orange-500/50 hover:bg-card transition-all duration-300"
+            >
+              <img className="h-6 w-6 object-contain" aria-hidden="true" src={item.link} alt={item.name} />
+              <span className="text-sm font-medium">{item.name}</span>
+            </Link>
+          ))}
+        </div>
       </div>
+
     </div>
   );
 }
