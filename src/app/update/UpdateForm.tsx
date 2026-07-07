@@ -29,15 +29,11 @@ interface UpdateFormProps {
   socialLinks: any[];
   techStack: any[];
   handleSubmit: (formData: FormData) => Promise<void>;
-            {error === "unauthorized" && (
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-rose-50 px-3 py-1 text-sm font-medium text-rose-700 dark:bg-rose-950 dark:text-rose-300">
-                Session expired. Please log in again.
-              </span>
-            )}
-            {error === "save-failed" && (
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-rose-50 px-3 py-1 text-sm font-medium text-rose-700 dark:bg-rose-950 dark:text-rose-300">
-                Failed to save profile. Please try again.
-              </span>
+  // Optional UI feedback props
+  status?: string;
+  error?: string;
+}
+
 function SectionHeader({ title, description, emoji }: { title: string; description: string; emoji: string }) {
   return (
     <div className="mb-6">
