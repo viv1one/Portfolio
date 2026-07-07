@@ -264,29 +264,30 @@ export function savePortfolioContent(content: {
   }>;
 }) {
   const tx = (db as any).transaction((payload: any) => {
-    db.prepare('DELETE FROM profile_descriptions WHERE profile_id = 1').run();
-    db.prepare('DELETE FROM profile WHERE id = 1').run();
-    db.prepare(`
-      INSERT INTO profile (
-        id, first_name, name, avatar, github_username, linkedin_url, designation, email, phone,
-        address, about_title, about_current_project, about_current_project_url, resume_url
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    `).run(
-      1,
-      payload.profile.firstName,
-      payload.profile.name,
-      payload.profile.avatar,
-      payload.profile.githubUsername,
-      payload.profile.linkedInUrl,
-      payload.profile.designation,
-      payload.profile.email,
-      payload.profile.phone,
-      payload.profile.address,
-      payload.profile.aboutTitle,
-      payload.profile.aboutCurrentProject,
-      payload.profile.aboutCurrentProjectUrl,
-      payload.profile.resumeUrl
-    );
+    try {
+      db.prepare('DELETE FROM profile_descriptions WHERE profile_id = 1').run();
+      db.prepare('DELETE FROM profile WHERE id = 1').run();
+      db.prepare(`
+        INSERT INTO profile (
+          id, first_name, name, avatar, github_username, linkedin_url, designation, email, phone,
+          address, about_title, about_current_project, about_current_project_url, resume_url
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      `).run(
+        1,
+        payload.profile.firstName,
+        payload.profile.name,
+        payload.profile.avatar,
+        payload.profile.githubUsername,
+        payload.profile.linkedInUrl,
+        payload.profile.designation,
+        payload.profile.email,
+        payload.profile.phone,
+        payload.profile.address,
+        payload.profile.aboutTitle,
+        payload.profile.aboutCurrentProject,
+        payload.profile.aboutCurrentProjectUrl,
+        payload.profile.resumeUrl
+      );
 
     const insertDescription = db.prepare('INSERT INTO profile_descriptions (profile_id, text, sort_order) VALUES (?, ?, ?)');
     payload.descriptions.forEach((text: string, index: number) => {
@@ -326,6 +327,10 @@ export function savePortfolioContent(content: {
     payload.techStack.forEach((item: any, index: number) => {
       insertTech.run(item.name, item.iconUrl, index);
     });
+    } catch (e) {
+      console.error('Transaction error while saving portfolio content:', e);
+      throw e;
+    }
   });
 
   tx(content);
