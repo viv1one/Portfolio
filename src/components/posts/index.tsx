@@ -1,5 +1,6 @@
 import { type Post } from "../../blogs";
 import Link from "next/link";
+import Image from "next/image";
 
 export function Posts({ posts }: { posts: Post[] }) {
   return (
@@ -9,10 +10,13 @@ export function Posts({ posts }: { posts: Post[] }) {
           
           {/* Post Image wrapper */}
           <div className="w-full md:w-80 shrink-0 aspect-video md:aspect-auto md:h-44 overflow-hidden rounded-xl bg-muted">
-            <img
+            <Image
               className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
               src={image}
               alt={title}
+              width={400}
+              height={225}
+              priority={false}
             />
           </div>
 

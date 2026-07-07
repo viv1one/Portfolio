@@ -6,6 +6,7 @@ import {
   postsPerPage,
 } from "../../../../blogs";
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 
 export default async function Category({
   params,
@@ -37,6 +38,24 @@ export default async function Category({
     </main>
   );
 }
+
+// SEO metadata for category pages
+export const generateMetadata = async ({ params }: { params: { category: Category } }): Promise<Metadata> => {
+  const { category } = params;
+  return {
+    title: `Blog – ${category}`,
+    description: `Posts in the ${category} category.`,
+    openGraph: {
+      title: `Blog – ${category}`,
+      description: `Posts in the ${category} category.`,
+      url: `https://viv1.vercel.app/blogs/category/${category}`,
+      siteName: "Vivek Kumar",
+      images: [],
+      locale: "en_US",
+      type: "website",
+    },
+  };
+};
 
 export function generateStaticParams() {
   return categories.map((category) => ({

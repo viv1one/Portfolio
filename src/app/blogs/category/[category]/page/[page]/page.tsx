@@ -1,3 +1,46 @@
+import { Pagination } from "@components/pagination";
+import { Posts } from "@components/posts";
+import { getPaginatedPostsByCategory, postsPerPage } from "../../../../../../blogs";
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+
+export const generateMetadata = async ({ params }: { params: { category: string; page: string } }): Promise<Metadata> => {
+  const pageNum = Number(params.page);
+  return {
+    title: `Blog – ${params.category} – Page ${pageNum}`,
+    description: `Page ${pageNum} of posts in the ${params.category} category.`,
+  };
+};
+
+export default async function CategoryPage({
+  params,
+}: {
+  params: { category: string; page: string };
+}) {
+  const page = Number(params.page);
+  if (Number.isNaN(page) || page < 1) notFound();
+
+  const { posts, total } = await getPaginatedPostsByCategory({
+    category: params.category,
+    page,
+    limit: postsPerPage,
+  });
+
+  if (posts.length === 0) notFound();
+
+  return (
+    <main>
+      <h1>Category: {params.category} – Page {page}</h1>
+      <Posts posts={posts} />
+      <Pagination
+        baseUrl={`/blogs/category/${params.category}/page`}
+        page={page}
+        perPage={postsPerPage}
+        total={total}
+      />
+    </main>
+  );
+}
 import { Category, categories } from "@lib/categories";
 import { Pagination } from "@components/pagination";
 import { Posts } from "@components/posts";

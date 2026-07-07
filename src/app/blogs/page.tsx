@@ -2,7 +2,9 @@ import { Categories } from "@components/categories";
 import { Pagination } from "@components/pagination";
 import { Posts } from "@components/posts";
 import { getPaginatedPosts, postsPerPage } from "../../blogs";
+import type { Metadata } from "next";
 import PageWrap from "@components/PageWrap";
+import SearchBar from "@components/search/SearchBar";
 
 export default async function Home() {
   const { posts, total } = await getPaginatedPosts({
@@ -12,6 +14,7 @@ export default async function Home() {
 
   return (
     <>
+      <SearchBar />
       <Categories />
       <Posts posts={posts} />
 
@@ -24,3 +27,25 @@ export default async function Home() {
     </>
   );
 }
+
+// SEO metadata for the blog home page
+export const metadata: Metadata = {
+  title: "Blog – Vivek Kumar",
+  description: "Latest articles on AI, tech, and more.",
+  openGraph: {
+    title: "Blog – Vivek Kumar",
+    description: "Latest articles on AI, tech, and more.",
+    url: "https://viv1.vercel.app/blogs",
+    siteName: "Vivek Kumar",
+    images: [
+      {
+        url: posts[0]?.image ?? "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: posts[0]?.title ?? "Blog",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+};
