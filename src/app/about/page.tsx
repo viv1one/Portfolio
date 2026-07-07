@@ -1,19 +1,20 @@
-import userData from "@content/data/data";
 import Link from "next/link";
 import React from "react";
-import techStack from "@content/data/techStack";
-import socialLinks from "@content/data/socialLinks";
 import PageWrap from "@components/PageWrap";
+import { getPortfolioProfile, getPortfolioSocialLinks, getPortfolioTechStack } from "@lib/content";
 
 export default function AboutMe() {
+  const userData = getPortfolioProfile();
+  const techStack = getPortfolioTechStack();
+  const socialLinks = getPortfolioSocialLinks();
   return (
     <PageWrap title="About Me">
-      <About />
+      <About userData={userData} techStack={techStack} socialLinks={socialLinks} />
     </PageWrap>
   );
 }
 
-function About() {
+function About({ userData, techStack, socialLinks }: { userData: any; techStack: any[]; socialLinks: any[] }) {
   return (
     <>
       <div className="-mt-14">
@@ -35,9 +36,9 @@ function About() {
       </div>
       <div className=" px-4">
         <div className="pt-20 grid grid-cols-1 md:grid-cols-3 max-w-6xl mx-auto gap-y-20 gap-x-20">
-          <ContactInfo />
+          <ContactInfo userData={userData} socialLinks={socialLinks} />
           <div className="col-span-1 md:col-span-2">
-            {userData.about.description?.map((desc, idx) => (
+            {userData.about.description?.map((desc: string, idx: number) => (
               <p
                 key={idx}
                 className="text-xl text-gray-700 mb-4 dark:text-gray-300"
@@ -64,7 +65,7 @@ function About() {
   );
 }
 
-function ContactInfo() {
+function ContactInfo({ userData, socialLinks }: { userData: any; socialLinks: any[] }) {
   return (
     <div className="inline-flex flex-col">
       <div>

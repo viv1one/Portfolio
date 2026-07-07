@@ -1,7 +1,7 @@
 import React from "react";
 import PageWrap from "@components/PageWrap";
-import projects from "@content/data/projectsData";
 import Link from "next/link";
+import { getPortfolioProjects } from "@lib/content";
 import Image from "next/image";
 import { kebabCase } from "@lib/utils";
 
@@ -18,6 +18,8 @@ interface ProjectProps {
 }
 
 export default function Projects() {
+  const projects = getPortfolioProjects();
+
   return (
     <PageWrap title="Projects">
       <div className="grid grid-cols-1 gap-12 md:gap-5 md:grid-cols-3 items-start">

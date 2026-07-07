@@ -1,17 +1,18 @@
 import PageWrap from "@components/PageWrap";
-import experience from "@content/data/experienceData";
 import Link from "next/link";
 import React from "react";
+import { getPortfolioExperiences } from "@lib/content";
 
 export default function Experiences() {
+  const experience = getPortfolioExperiences();
   return (
     <PageWrap title="Experiences">
-      <Experience />
+      <Experience experience={experience} />
     </PageWrap>
   );
 }
 
-function Experience() {
+function Experience({ experience }: { experience: any[] }) {
   return (
     <div className="max-w-4xl mx-auto -my-6">
       {experience.map((exp, idx) => (
@@ -33,7 +34,7 @@ function Experience() {
             </Link>
           </div>
           <div className="dark:text-slate-200 text-slate-700">
-      {exp.description.map((desc, index) => (
+      {exp.description.map((desc: string, index: number) => (
         <p key={index}>{desc}</p>
       ))}
     </div>

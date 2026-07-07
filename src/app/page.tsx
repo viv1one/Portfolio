@@ -1,8 +1,7 @@
-"use client";
-
-import userData from "@content/data/data";
+import { getPortfolioProfile } from "@lib/content";
 
 export default function Home() {
+  const userData = getPortfolioProfile();
   return (
     <div className="flex justify-center items-center h-screen">
       <div className="flex-1 text-center font-mono bg-radial-at-t from-amber-700 via-orange-300 to-rose-800 relative">

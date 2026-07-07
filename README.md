@@ -1,65 +1,111 @@
 # Portfolio Site
 
-Simple overview
+A modern personal portfolio built with Next.js, React, Tailwind CSS, and a local SQLite database for easier content editing.
 
-## Description
+## Overview
 
-An in-depth paragraph about your project and overview of use.
+This project is a personal website that showcases:
+- a home page and about section
+- professional experience timeline
+- project highlights
+- social links and tech stack
 
-## Getting Started
+Content is now served from a local SQLite database, which makes updates simpler than editing hardcoded data files.
 
-### Dependencies
+## Tech Stack
 
-- Describe any prerequisites, libraries, OS version, etc., needed before installing program.
-- ex. Windows 10
+- Next.js
+- React
+- Tailwind CSS
+- TypeScript
+- SQLite via better-sqlite3
+- pnpm
 
-### Installing
+## Prerequisites
 
-- How/where to download your program
-- Any modifications needed to be made to files/folders
+Make sure you have the following installed:
+- Node.js 20+ recommended
+- pnpm
 
-### Executing program
+If pnpm is not available, enable it with:
 
-- How to run the program
-- Step-by-step bullets
-
-```
-code blocks for commands
-```
-
-## Help
-
-Any advise for common problems or issues.
-
-```
-command to run if program contains helper info
+```bash
+corepack enable
 ```
 
-## Authors
+## Installation
 
-Contributors names and contact info
+Clone the repository and install dependencies:
 
-ex. Dominique Pizzie  
-ex. [@DomPizzie](https://twitter.com/dompizzie)
+```bash
+git clone https://github.com/viv1one/Portfolio.git
+cd Portfolio
+pnpm install
+```
 
-## Version History
+## Running Locally
 
-- 0.2
-  - Various bug fixes and optimizations
-  - See [commit change]() or See [release history]()
-- 0.1
-  - Initial Release
+Start the development server:
+
+```bash
+pnpm dev
+```
+
+Then open:
+
+```text
+http://localhost:3000
+```
+
+## Content Management
+
+The portfolio content is stored in a local SQLite database at:
+
+```text
+data/portfolio.sqlite
+```
+
+The content layer lives in:
+- [src/lib/content-db.ts](src/lib/content-db.ts)
+- [src/lib/content.ts](src/lib/content.ts)
+- [src/lib/content-server.ts](src/lib/content-server.ts)
+
+You can edit the database using any SQLite client such as:
+- DB Browser for SQLite
+- sqlite3 CLI
+
+The main tables include:
+- profile
+- profile_descriptions
+- experiences
+- projects
+- social_links
+- tech_stack
+
+## Project Structure
+
+```text
+src/
+  app/            # App routes and pages
+  components/     # UI components
+  content/        # Legacy content data (kept for reference)
+  lib/            # SQLite content access layer
+  styles/         # Global styling
+```
+
+## Build
+
+To verify the production build:
+
+```bash
+pnpm build
+```
 
 ## License
 
-This project is licensed under the [NAME HERE] License - see the LICENSE.md file for details
+No license file is currently included in the repository. If you plan to publish or reuse this project, add an appropriate license before distribution.
 
-## Acknowledgments
+## Author
 
-Inspiration, code snippets, etc.
-
-- [awesome-readme](https://github.com/matiassingers/awesome-readme)
-- [PurpleBooth](https://gist.github.com/PurpleBooth/109311bb0361f32d87a2)
-- [dbader](https://github.com/dbader/readme-template)
-- [zenorocha](https://gist.github.com/zenorocha/4526327)
-- [fvcproductions](https://gist.github.com/fvcproductions/1bfc2d4aecb01a834b46)
+Vivek Kumar
+- GitHub: [viv1one](https://github.com/viv1one)

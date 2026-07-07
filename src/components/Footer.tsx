@@ -1,10 +1,10 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import React from 'react'
-import socialLinks from '@content/data/socialLinks'
-
+import { getPortfolioSocialLinks } from '@lib/content'
 
 export default function Footer() {
+  const socialLinks = getPortfolioSocialLinks();
   return (
     <footer>
     <div className="container flex flex-col items-center justify-between p-6 mx-auto space-y-4 sm:space-y-0 sm:flex-row">
