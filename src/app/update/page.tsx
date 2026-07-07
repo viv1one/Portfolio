@@ -257,7 +257,7 @@ export default async function UpdatePage({ searchParams }: { searchParams: Promi
           </div>
         </div>
 
-        <UpdateForm profile={profile} experiences={experienceEntries} projects={projectEntries} socialLinks={socialEntries} techStack={techEntries} handleSubmit={handleSubmit} status={status} error={error} />
+        <UpdateForm profile={profile} experiences={experienceEntries} projects={projectEntries} socialLinks={socialEntries} techStack={techEntries} handleSubmit={handleSubmit} status={typeof status === 'string' ? status : undefined} error={typeof error === 'string' ? error : undefined} />
       </div>
     </PageWrap>
   );
