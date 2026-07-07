@@ -4,6 +4,7 @@ import { revalidatePath } from 'next/cache';
 import PageWrap from '@components/PageWrap';
 import { getPortfolioProfile, getPortfolioExperiences, getPortfolioProjects, getPortfolioSocialLinks, getPortfolioTechStack, savePortfolioContent } from '@lib/content';
 import { Button } from '@components/ui/button';
+import UpdateForm from './UpdateForm';
 
 export const dynamic = 'force-dynamic';
 
@@ -256,132 +257,7 @@ export default async function UpdatePage({ searchParams }: { searchParams: Promi
           </div>
         </div>
 
-        <form action={handleSubmit} className="space-y-6">
-          <section className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-800">
-            <SectionHeader title="Profile" description="Tell visitors who you are and how to reach you." emoji="👤" />
-            <div className="grid gap-4 md:grid-cols-2">
-              <InputField name="firstName" label="First name" defaultValue={profile.firstName} placeholder="John" />
-              <InputField name="name" label="Full name" defaultValue={profile.name} placeholder="John Doe" />
-              <InputField name="avatar" label="Avatar URL" defaultValue={profile.avatar} placeholder="https://..." />
-              <InputField name="githubUsername" label="GitHub username" defaultValue={profile.githubUsername} placeholder="johndoe" />
-              <InputField name="linkedInUrl" label="LinkedIn URL" defaultValue={profile.linkedInUrl} placeholder="https://linkedin.com/in/..." />
-              <InputField name="designation" label="Designation" defaultValue={profile.designation} placeholder="Full Stack Developer" />
-              <InputField name="email" label="Email" defaultValue={profile.email} placeholder="john@example.com" type="email" />
-              <InputField name="phone" label="Phone" defaultValue={profile.phone} placeholder="+1 234 567 890" />
-              <InputField name="address" label="Address" defaultValue={profile.address} placeholder="San Francisco, CA" />
-              <InputField name="aboutTitle" label="About title" defaultValue={profile.about.title} placeholder="A short tagline" />
-              <InputField name="aboutCurrentProject" label="Current project" defaultValue={profile.about.currentProject} placeholder="Building something cool" />
-              <InputField name="aboutCurrentProjectUrl" label="Current project URL" defaultValue={profile.about.currentProjectUrl} placeholder="https://..." />
-              <InputField name="resumeUrl" label="Resume URL" defaultValue={profile.resumeUrl} placeholder="https://..." />
-            </div>
-            <div className="mt-4">
-              <TextAreaField
-                name="descriptions"
-                label="About description"
-                defaultValue={profile.about.description.join('\n')}
-                placeholder="Add one paragraph per line"
-                rows={6}
-              />
-            </div>
-          </section>
-
-          <section className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-800">
-            <SectionHeader title="Experience" description="Add your work history and keep the story current." emoji="💼" />
-            <div className="space-y-4">
-              {experienceEntries.map((item, index) => (
-                <div key={`exp-${item.title}-${index}`} className="rounded-lg border border-slate-200 bg-slate-50/50 p-5 dark:border-slate-600 dark:bg-slate-900/50">
-                  <div className="mb-4 flex items-center justify-between">
-                    <span className="text-sm font-semibold text-slate-600 dark:text-slate-400">Entry {index + 1}</span>
-                  </div>
-                  <div className="grid gap-4 md:grid-cols-2">
-                    <InputField name={`experiences[${index}][title]`} label="Role or title" defaultValue={item.title} placeholder="Senior Developer" />
-                    <InputField name={`experiences[${index}][company]`} label="Company" defaultValue={item.company} placeholder="Acme Inc." />
-                    <InputField name={`experiences[${index}][year]`} label="Year" defaultValue={item.year} placeholder="2020 - Present" />
-                    <InputField name={`experiences[${index}][companyLink]`} label="Company link" defaultValue={item.companyLink} placeholder="https://..." />
-                  </div>
-                  <div className="mt-4">
-                    <TextAreaField
-                      name={`experiences[${index}][description]`}
-                      label="Description"
-                      defaultValue={item.description?.join('\n') ?? ''}
-                      placeholder="Add one bullet per line"
-                      rows={4}
-                    />
-                  </div>
-                </div>
-              ))}
-            </div>
-          </section>
-
-          <section className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-800">
-            <SectionHeader title="Projects" description="Highlight the work you want visitors to notice." emoji="🚀" />
-            <div className="space-y-4">
-              {projectEntries.map((item, index) => (
-                <div key={`proj-${item.title}-${index}`} className="rounded-lg border border-slate-200 bg-slate-50/50 p-5 dark:border-slate-600 dark:bg-slate-900/50">
-                  <div className="mb-4 flex items-center justify-between">
-                    <span className="text-sm font-semibold text-slate-600 dark:text-slate-400">Project {index + 1}</span>
-                  </div>
-                  <div className="grid gap-4 md:grid-cols-2">
-                    <InputField name={`projects[${index}][title]`} label="Project title" defaultValue={item.title} placeholder="My Project" />
-                    <InputField name={`projects[${index}][link]`} label="Project link" defaultValue={item.link} placeholder="https://..." />
-                    <InputField name={`projects[${index}][imgUrl]`} label="Image URL" defaultValue={item.imgUrl} placeholder="https://..." />
-                  </div>
-                  <div className="mt-4">
-                    <TextAreaField
-                      name={`projects[${index}][desc]`}
-                      label="Description"
-                      defaultValue={item.desc}
-                      placeholder="Short project description"
-                      rows={3}
-                    />
-                  </div>
-                </div>
-              ))}
-            </div>
-          </section>
-
-          <section className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-800">
-            <SectionHeader title="Social Links" description="Make it easier for people to connect with you." emoji="🔗" />
-            <div className="space-y-4">
-              {socialEntries.map((item, index) => (
-                <div key={`social-${item.name}-${index}`} className="rounded-lg border border-slate-200 bg-slate-50/50 p-5 dark:border-slate-600 dark:bg-slate-900/50">
-                  <div className="mb-4 flex items-center justify-between">
-                    <span className="text-sm font-semibold text-slate-600 dark:text-slate-400">Link {index + 1}</span>
-                  </div>
-                  <div className="grid gap-4 md:grid-cols-2">
-                    <InputField name={`socialLinks[${index}][name]`} label="Label" defaultValue={item.name} placeholder="GitHub" />
-                    <InputField name={`socialLinks[${index}][href]`} label="URL" defaultValue={item.href} placeholder="https://github.com/..." />
-                    <InputField name={`socialLinks[${index}][link]`} label="Icon URL" defaultValue={item.link} placeholder="https://..." />
-                  </div>
-                </div>
-              ))}
-            </div>
-          </section>
-
-          <section className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-800">
-            <SectionHeader title="Tech Stack" description="Show the tools and technologies you work with." emoji="⚡" />
-            <div className="space-y-4">
-              {techEntries.map((item, index) => (
-                <div key={`tech-${item.name}-${index}`} className="rounded-lg border border-slate-200 bg-slate-50/50 p-5 dark:border-slate-600 dark:bg-slate-900/50">
-                  <div className="mb-4 flex items-center justify-between">
-                    <span className="text-sm font-semibold text-slate-600 dark:text-slate-400">Skill {index + 1}</span>
-                  </div>
-                  <div className="grid gap-4 md:grid-cols-2">
-                    <InputField name={`techStack[${index}][name]`} label="Tech name" defaultValue={item.name} placeholder="React" />
-                    <InputField name={`techStack[${index}][iconUrl]`} label="Icon URL" defaultValue={item.iconUrl} placeholder="https://..." />
-                  </div>
-                </div>
-              ))}
-            </div>
-          </section>
-
-          <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-800">
-            <p className="text-sm text-slate-500">All changes will be published immediately.</p>
-            <Button type="submit" size="lg">
-              Save changes
-            </Button>
-          </div>
-        </form>
+        <UpdateForm profile={profile} experiences={experienceEntries} projects={projectEntries} socialLinks={socialEntries} techStack={techEntries} handleSubmit={handleSubmit} status={status} error={error} />
       </div>
     </PageWrap>
   );

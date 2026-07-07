@@ -93,16 +93,66 @@ export default function UpdateForm({
 }: UpdateFormProps) {
   // Add React state arrays with unique client-side IDs
   const [experiences, setExperiences] = useState(
-    initialExperiences.map((exp, idx) => ({ ...exp, clientId: `exp-${idx}-${Date.now()}` }))
+    initialExperiences.length > 0
+      ? initialExperiences.map((exp, idx) => ({
+          ...exp,
+          clientId: `exp-${idx}-${Date.now()}`,
+        }))
+      : [
+          {
+            clientId: `exp-${Date.now()}`,
+            title: '',
+            company: '',
+            year: '',
+            companyLink: '',
+            description: [],
+          },
+        ]
   );
   const [projects, setProjects] = useState(
-    initialProjects.map((proj, idx) => ({ ...proj, clientId: `proj-${idx}-${Date.now()}` }))
+    initialProjects.length > 0
+      ? initialProjects.map((proj, idx) => ({
+          ...proj,
+          clientId: `proj-${idx}-${Date.now()}`,
+        }))
+      : [
+          {
+            clientId: `proj-${Date.now()}`,
+            title: '',
+            link: '',
+            desc: '',
+            imgUrl: '',
+          },
+        ]
   );
   const [socialLinks, setSocialLinks] = useState(
-    initialSocialLinks.map((link, idx) => ({ ...link, clientId: `link-${idx}-${Date.now()}` }))
+    initialSocialLinks.length > 0
+      ? initialSocialLinks.map((link, idx) => ({
+          ...link,
+          clientId: `link-${idx}-${Date.now()}`,
+        }))
+      : [
+          {
+            clientId: `link-${Date.now()}`,
+            name: '',
+            href: '',
+            link: '',
+          },
+        ]
   );
   const [techStack, setTechStack] = useState(
-    initialTechStack.map((tech, idx) => ({ ...tech, clientId: `tech-${idx}-${Date.now()}` }))
+    initialTechStack.length > 0
+      ? initialTechStack.map((tech, idx) => ({
+          ...tech,
+          clientId: `tech-${idx}-${Date.now()}`,
+        }))
+      : [
+          {
+            clientId: `tech-${Date.now()}`,
+            name: '',
+            iconUrl: '',
+          },
+        ]
   );
 
   // Add handlers
