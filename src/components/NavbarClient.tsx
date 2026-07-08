@@ -6,6 +6,7 @@ import { Button } from "@components/ui/button";
 import ModeToggle from "@components/ModeToggle";
 import { SheetTrigger, SheetContent, Sheet } from "@components/ui/sheet";
 import { usePathname } from "next/navigation";
+import { type Profile } from "@lib/content-types";
 
 const navigation = [
   { name: "Home", href: "/" },
@@ -15,7 +16,7 @@ const navigation = [
   { name: "Blogs", href: "/blogs" },
 ];
 
-export default function NavbarClient({ profile }: { profile: ProfileData }) {
+export default function NavbarClient({ profile }: { profile: Profile }) {
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
@@ -42,7 +43,7 @@ export default function NavbarClient({ profile }: { profile: ProfileData }) {
   );
 }
 
-function Header({ profile }: { profile: ProfileData }) {
+function Header({ profile }: { profile: Profile }) {
   return (
     <div className="flex justify-between items-center w-full">
       <Link href="/" className="flex items-center">

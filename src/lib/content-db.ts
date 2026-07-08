@@ -264,7 +264,7 @@ export function savePortfolioContent(content: {
     iconUrl: string;
   }>;
 }) {
-  const tx = db.transaction((payload: PortfolioContentPayload) => {
+  const tx = (db as any).transaction((payload: any) => {
     try {
       db.prepare('DELETE FROM profile_descriptions WHERE profile_id = 1').run();
       db.prepare('DELETE FROM profile WHERE id = 1').run();

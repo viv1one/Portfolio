@@ -34,13 +34,12 @@ export function ListItem(props: ComponentPropsWithoutRef<'li'>) {
 
 // Image component - using next/image for optimization
 export function MDXImage(props: ComponentPropsWithoutRef<'img'>) {
-  const { src, alt, ...rest } = props;
+  const { src, alt } = props;
   return (
     <NextImage
-      src={src}
-      alt={alt}
+      src={src as string}
+      alt={alt ?? ''}
       className="max-w-full h-auto my-4 rounded-lg shadow-md"
-      {...rest}
     />
   );
 }

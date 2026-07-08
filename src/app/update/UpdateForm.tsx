@@ -3,7 +3,7 @@
 
 import React, { useState } from "react";
 import { Button } from "@components/ui/button";
-import type { Experience, Project, SocialLink, TechStack } from "@lib/content-types";
+import type { Experience, Project, SocialLink, TechStackItem } from "@lib/content-types";
 
 interface ProfileData {
   firstName: string;
@@ -29,7 +29,7 @@ interface UpdateFormProps {
   experiences: Experience[];
   projects: Project[];
   socialLinks: SocialLink[];
-  techStack: TechStack[];
+  techStack: TechStackItem[];
   handleSubmit: (formData: FormData) => Promise<void>;
   // Optional UI feedback props
   status?: string;
