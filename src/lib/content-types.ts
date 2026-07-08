@@ -41,6 +41,7 @@ export interface Project {
     desc: string;
     imgUrl: string;
     sortOrder?: number;
+    tags?: string[];
 }
 
 export interface SocialLink {

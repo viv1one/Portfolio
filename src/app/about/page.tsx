@@ -145,7 +145,7 @@ function About({ userData, techStack, socialLinks }: { userData: UserData; techS
   );
 }
 
-function ContactInfo({ userData, socialLinks }: { userData: ProfileWithAbout; socialLinks: SocialLink[] }) {
+function ContactInfo({ userData, socialLinks }: { userData: UserData; socialLinks: SocialLink[] }) {
   return (
     <div className="rounded-2xl border border-border bg-card/60 backdrop-blur-md p-6 space-y-8 shadow-xs">
       
