@@ -3,7 +3,9 @@ import path from 'node:path';
 import fs from 'node:fs';
 import type { PortfolioContent, Experience, Project, SocialLink, TechStackItem } from './content-types';
 
-const dbPath = path.join(process.cwd(), 'data', 'portfolio.sqlite');
+const dbPath = process.env.VERCEL
+  ? path.join('/tmp', 'portfolio.sqlite')
+  : path.join(process.cwd(), 'data', 'portfolio.sqlite');
 const dbDir = path.dirname(dbPath);
 
 if (!fs.existsSync(dbDir)) {
