@@ -41,7 +41,7 @@ export async function Categories() {
             <Link
               href={`/blogs/category/${category}`}
               key={index}
-              className="grid gap-4"
+                className="grid gap-4 cursor-pointer"
             >
               <div className="bg-gray-100 rounded-lg p-4 flex items-center justify-center dark:bg-gray-800">
                 {renderIcon(category)}

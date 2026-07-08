@@ -16,7 +16,12 @@ export default async function Category({
 }) {
   const { category } = params;
 
-  // Handle case‑insensitive category URLs.
+  // Guard against missing category param (should not happen, but prevents runtime crash).
+  if (!category) {
+    notFound();
+  }
+
+  // Handle case‑insensitive category URLs safely.
   const matchedCategory = categories.find(
     (c) => c.toLowerCase() === (category as string).toLowerCase()
   );

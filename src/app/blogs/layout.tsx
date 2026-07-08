@@ -2,6 +2,8 @@
 import type { Metadata } from "next";
 import PageWrap from "@components/PageWrap";
 import { usePathname } from "next/navigation";
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 
 // export const metadata: Metadata = {
 //   title: "Blog",
@@ -25,12 +27,23 @@ export default function RootLayout({
 
   if (shouldSkipLayout) {
     return (
-      <>
-        <div className="max-w-6xl mx-auto">
-          <h1 className="text-5xl md:text-9xl font-bold mt-12 text-center md:text-left bg-gradient-to-r from-orange-700 via-blue-500 to-green-400 text-transparent bg-clip-text animate-gradient" />
-          {children}
+      <div className="min-h-screen bg-white dark:bg-gray-950">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-8">
+          {/* Back navigation */}
+          <Link
+            href="/blogs"
+            className="inline-flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors mb-8 group"
+          >
+            <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
+            Back to Blogs
+          </Link>
+
+          {/* Blog post content */}
+          <article className="max-w-none">
+            {children}
+          </article>
         </div>
-      </>
+      </div>
     );
   }
 

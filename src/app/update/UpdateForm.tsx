@@ -226,7 +226,7 @@ export default function UpdateForm({
         </div>
       </div>
 
-      <form action={handleSubmit} method="post" className="space-y-6">
+      <form action={handleSubmit} className="space-y-6">
         
         {/* Profile Section */}
         <section className="rounded-xl border border-slate-200 bg-white p-6 shadow-xs dark:border-slate-700 dark:bg-slate-800">

@@ -38,7 +38,7 @@ function Experience({ experience }: { experience: any[] }) {
                   href={exp.companyLink || "#"}
                 >
                   {exp.company}
-                  {exp.companyLink && <span className="ml-1 text-[10px]">&nearr;</span>}
+                  {exp.companyLink && <span className="ml-1 text-[10px]">↗</span>}
                 </Link>
               </div>
 
