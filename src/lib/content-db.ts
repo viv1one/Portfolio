@@ -1,6 +1,7 @@
 import Database from 'better-sqlite3';
 import path from 'node:path';
 import fs from 'node:fs';
+import type { PortfolioContent, Experience, Project, SocialLink, TechStackItem } from './content-types';
 
 const dbPath = path.join(process.cwd(), 'data', 'portfolio.sqlite');
 const dbDir = path.dirname(dbPath);
@@ -263,7 +264,7 @@ export function savePortfolioContent(content: {
     iconUrl: string;
   }>;
 }) {
-  const tx = (db as any).transaction((payload: any) => {
+  const tx = db.transaction((payload: PortfolioContentPayload) => {
     try {
       db.prepare('DELETE FROM profile_descriptions WHERE profile_id = 1').run();
       db.prepare('DELETE FROM profile WHERE id = 1').run();
@@ -299,7 +300,7 @@ export function savePortfolioContent(content: {
 
     db.prepare('DELETE FROM experiences').run();
     const insertExperience = db.prepare('INSERT INTO experiences (title, company, year, company_link, description_json, sort_order) VALUES (?, ?, ?, ?, ?, ?)');
-    payload.experiences.forEach((item: any, index: number) => {
+    payload.experiences.forEach((item: Experience, index: number) => {
       insertExperience.run(
         item.title,
         item.company,
@@ -312,19 +313,19 @@ export function savePortfolioContent(content: {
 
     db.prepare('DELETE FROM projects').run();
     const insertProject = db.prepare('INSERT INTO projects (title, link, desc, img_url, sort_order) VALUES (?, ?, ?, ?, ?)');
-    payload.projects.forEach((item: any, index: number) => {
+    payload.projects.forEach((item: Project, index: number) => {
       insertProject.run(item.title, item.link, item.desc, item.imgUrl, index);
     });
 
     db.prepare('DELETE FROM social_links').run();
     const insertSocial = db.prepare('INSERT INTO social_links (name, href, link, sort_order) VALUES (?, ?, ?, ?)');
-    payload.socialLinks.forEach((item: any, index: number) => {
+    payload.socialLinks.forEach((item: SocialLink, index: number) => {
       insertSocial.run(item.name, item.href, item.link, index);
     });
 
     db.prepare('DELETE FROM tech_stack').run();
     const insertTech = db.prepare('INSERT INTO tech_stack (name, icon_url, sort_order) VALUES (?, ?, ?)');
-    payload.techStack.forEach((item: any, index: number) => {
+    payload.techStack.forEach((item: TechStackItem, index: number) => {
       insertTech.run(item.name, item.iconUrl, index);
     });
     } catch (e) {

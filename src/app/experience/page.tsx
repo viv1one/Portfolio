@@ -3,8 +3,16 @@ import Link from "next/link";
 import React from "react";
 import { getPortfolioExperiences } from "@lib/content";
 
+interface ExperienceItem {
+  title: string;
+  company: string;
+  companyLink?: string;
+  year: string;
+  description: string[];
+}
+
 export default function Experiences() {
-  const experience = getPortfolioExperiences();
+  const experience = getPortfolioExperiences() as ExperienceItem[];
   return (
     <PageWrap title="Experiences">
       <Experience experience={experience} />
@@ -12,7 +20,7 @@ export default function Experiences() {
   );
 }
 
-function Experience({ experience }: { experience: any[] }) {
+function Experience({ experience }: { experience: ExperienceItem[] }) {
   return (
     <div className="max-w-3xl mx-auto relative border-l border-border pl-6 sm:pl-8 space-y-12">
       {experience.map((exp, idx) => (

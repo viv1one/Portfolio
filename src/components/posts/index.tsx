@@ -7,6 +7,9 @@ export function Posts({ posts }: { posts: Post[] }) {
     <div className="space-y-6">
       {posts.map(({ slug, title, image, publishDate, categories, excerpt }) => (
         <article key={slug} className="group relative flex flex-col md:flex-row gap-6 md:gap-8 rounded-2xl border border-border bg-card p-4 md:p-6 shadow-xs hover:border-orange-500/40 hover:shadow-md transition-all duration-300">
+          <Link href={`/blogs/${slug}`} className="absolute inset-0 z-10" aria-label={title}>
+            <span aria-hidden="true" />
+          </Link>
           
           {/* Post Image wrapper */}
           <div className="w-full md:w-80 shrink-0 aspect-video md:aspect-auto md:h-44 overflow-hidden rounded-xl bg-muted">
@@ -36,10 +39,7 @@ export function Posts({ posts }: { posts: Post[] }) {
               </div>
 
               <h2 className="text-xl md:text-2xl font-bold text-foreground group-hover:text-orange-500 transition-colors">
-                <Link href={`/blogs/${slug}`} className="focus:outline-none">
-                  <span className="absolute inset-0" aria-hidden="true" />
                   {title}
-                </Link>
               </h2>
               {/* Optional excerpt from post metadata */}
               {excerpt && (

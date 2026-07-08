@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function NotFound() {
     return (
        
@@ -40,6 +42,12 @@ export default function NotFound() {
     </h1>
 
     <p className="mt-4 text-gray-500 dark:text-gray-400">We can't find that page.</p>
+    <div className="mt-6 flex justify-center gap-4">
+      <Link href="/" className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100">Home</Link>
+      <Link href="/about" className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100">About</Link>
+      <Link href="/projects" className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100">Projects</Link>
+      <Link href="/blogs" className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100">Blogs</Link>
+    </div>
   </div>
 </div>
     )

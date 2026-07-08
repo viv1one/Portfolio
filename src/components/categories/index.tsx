@@ -60,7 +60,7 @@ export async function Categories() {
   );
 }
 
-function renderIcon(category: any) {
+function renderIcon(category: string) {
   switch (category) {
     case "AI":
       return <BrainIcon className="w-8 h-8 text-gray-500 dark:text-gray-400" />;
@@ -75,7 +75,7 @@ function renderIcon(category: any) {
   }
 }
 
-function getDescription(category: any) {
+function getDescription(category: string) {
   switch (category) {
     case "AI":
       return "Explore AI insights, tutorials, and news.";
@@ -88,7 +88,7 @@ function getDescription(category: any) {
   }
 }
 
-function ShirtIcon(props: any) {
+function ShirtIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       {...props}
@@ -109,7 +109,7 @@ function ShirtIcon(props: any) {
 }
 
 // Simple brain icon representing AI category.
-function BrainIcon(props: any) {
+function BrainIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       {...props}
@@ -127,7 +127,7 @@ function BrainIcon(props: any) {
   );
 }
 
-function ShoppingBagIcon(props: any) {
+function ShoppingBagIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       {...props}

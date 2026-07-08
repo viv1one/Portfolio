@@ -1,12 +1,64 @@
 import Link from "next/link";
+import Image from "next/image";
 import React from "react";
 import PageWrap from "@components/PageWrap";
 import { getPortfolioProfile, getPortfolioSocialLinks, getPortfolioTechStack } from "@lib/content";
 
+interface Profile {
+  firstName: string;
+  name: string;
+  avatar: string;
+  githubUsername: string;
+  linkedInUrl: string;
+  designation: string;
+  email: string;
+  phone: string;
+  address: string;
+  aboutTitle: string;
+  aboutCurrentProject: string;
+  aboutCurrentProjectUrl: string;
+  resumeUrl: string;
+}
+
+interface AboutData {
+  title: string;
+  currentProject: string;
+  currentProjectUrl: string;
+  description: string[];
+}
+
+interface UserData {
+  firstName: string;
+  name: string;
+  avatar: string;
+  githubUsername: string;
+  linkedInUrl: string;
+  designation: string;
+  email: string;
+  phone: string;
+  address: string;
+  aboutTitle: string;
+  aboutCurrentProject: string;
+  aboutCurrentProjectUrl: string;
+  resumeUrl: string;
+  about: AboutData;
+}
+
+interface TechStackItem {
+  name: string;
+  iconUrl: string;
+}
+
+interface SocialLink {
+  name: string;
+  href: string;
+  link: string;
+}
+
 export default function AboutMe() {
-  const userData = getPortfolioProfile();
-  const techStack = getPortfolioTechStack();
-  const socialLinks = getPortfolioSocialLinks();
+  const userData = getPortfolioProfile() as UserData;
+  const techStack = getPortfolioTechStack() as TechStackItem[];
+  const socialLinks = getPortfolioSocialLinks() as SocialLink[];
   return (
     <PageWrap title="About Me">
       <About userData={userData} techStack={techStack} socialLinks={socialLinks} />
@@ -14,7 +66,7 @@ export default function AboutMe() {
   );
 }
 
-function About({ userData, techStack, socialLinks }: { userData: any; techStack: any[]; socialLinks: any[] }) {
+function About({ userData, techStack, socialLinks }: { userData: UserData; techStack: TechStackItem[]; socialLinks: SocialLink[] }) {
   return (
     <div className="space-y-16 px-4 md:px-0">
       
@@ -73,9 +125,11 @@ function About({ userData, techStack, socialLinks }: { userData: any; techStack:
                   key={item.name}
                   className="flex flex-col items-center justify-center rounded-xl border border-border bg-card/40 backdrop-blur-xs p-4 hover:border-orange-500/50 hover:bg-card transition-all duration-300"
                 >
-                  <img
+                  <Image
                     src={item.iconUrl}
                     alt={item.name}
+                    width={48}
+                    height={48}
                     className="h-12 w-12 object-contain hover:scale-105 transition-transform duration-300"
                   />
                   <span className="mt-2 text-xs font-semibold text-muted-foreground text-center">{item.name}</span>
@@ -91,7 +145,7 @@ function About({ userData, techStack, socialLinks }: { userData: any; techStack:
   );
 }
 
-function ContactInfo({ userData, socialLinks }: { userData: any; socialLinks: any[] }) {
+function ContactInfo({ userData, socialLinks }: { userData: ProfileWithAbout; socialLinks: SocialLink[] }) {
   return (
     <div className="rounded-2xl border border-border bg-card/60 backdrop-blur-md p-6 space-y-8 shadow-xs">
       
@@ -137,7 +191,13 @@ function ContactInfo({ userData, socialLinks }: { userData: any; socialLinks: an
               href={item.href}
               className="flex items-center gap-3 rounded-lg border border-border bg-card/30 p-2.5 hover:border-orange-500/50 hover:bg-card transition-all duration-300"
             >
-              <img className="h-6 w-6 object-contain" aria-hidden="true" src={item.link} alt={item.name} />
+              <Image
+                src={item.link}
+                alt={item.name}
+                width={24}
+                height={24}
+                className="h-6 w-6 object-contain"
+              />
               <span className="text-sm font-medium">{item.name}</span>
             </Link>
           ))}

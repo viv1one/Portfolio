@@ -1,4 +1,5 @@
 import { type ComponentPropsWithoutRef } from 'react';
+import NextImage from 'next/image';
 
 // Heading components
 export function Heading1(props: ComponentPropsWithoutRef<'h1'>) {
@@ -14,8 +15,8 @@ export function Heading3(props: ComponentPropsWithoutRef<'h3'>) {
 }
 
 // Paragraph component
-export function Paragraph(props: ComponentPropsWithoutRef<'p'>) {
-  return <p className="text-base leading-7 my-4 text-gray-700 dark:text-gray-300" {...props} />;
+export function Paragraph(props: ComponentPropsWithoutRef<'div'>) {
+  return <div className="text-base leading-7 my-4 text-gray-700 dark:text-gray-300" {...props} />;
 }
 
 // List components
@@ -31,9 +32,17 @@ export function ListItem(props: ComponentPropsWithoutRef<'li'>) {
   return <li className="my-2" {...props} />;
 }
 
-// Image component
-export function Image(props: ComponentPropsWithoutRef<'img'>) {
-  return <img className="max-w-full h-auto my-4 rounded-lg shadow-md" {...props} />;
+// Image component - using next/image for optimization
+export function MDXImage(props: ComponentPropsWithoutRef<'img'>) {
+  const { src, alt, ...rest } = props;
+  return (
+    <NextImage
+      src={src}
+      alt={alt}
+      className="max-w-full h-auto my-4 rounded-lg shadow-md"
+      {...rest}
+    />
+  );
 }
 
 // Blockquote component

@@ -65,9 +65,11 @@ export default async function Home() {
 
           <div className="relative group">
             <div className="absolute -inset-1 rounded-full bg-gradient-to-r from-orange-500 to-blue-500 opacity-30 blur-lg transition duration-1000 group-hover:opacity-50" />
-            <img
+            <Image
               src={userData.avatar}
               alt={userData.name}
+              width={224}
+              height={224}
               className="relative w-48 h-48 md:w-56 md:h-56 rounded-full border-4 border-background object-cover shadow-2xl transition duration-500 group-hover:scale-105"
             />
           </div>
@@ -84,7 +86,7 @@ export default async function Home() {
                 key={tech.name}
                 className="flex items-center gap-2 rounded-xl border border-border bg-card/50 backdrop-blur-xs px-4 py-2 hover:border-orange-500/50 hover:bg-card transition-all duration-300"
               >
-                <img src={tech.iconUrl} alt={tech.name} className="w-6 h-6 object-contain" />
+                <Image src={tech.iconUrl} alt={tech.name} width={24} height={24} className="w-6 h-6 object-contain" />
                 <span className="text-sm font-medium">{tech.name}</span>
               </div>
             ))}
@@ -111,9 +113,11 @@ export default async function Home() {
               >
                 <div className="p-4 space-y-4">
                   <div className="relative aspect-video overflow-hidden rounded-lg">
-                    <img
+                    <Image
                       src={project.imgUrl}
                       alt={project.title}
+                      width={640}
+                      height={360}
                       className="w-full h-full object-cover transition duration-500 group-hover:scale-105"
                     />
                   </div>
@@ -176,7 +180,7 @@ export default async function Home() {
                       {post.title}
                     </h3>
                     <p className="text-sm text-muted-foreground line-clamp-2">
-                      Click to read this article, learn key concepts and discover tips for implementation.
+                      {post.excerpt || "Click to read this article, learn key concepts and discover tips for implementation."}
                     </p>
                   </div>
                 </Link>

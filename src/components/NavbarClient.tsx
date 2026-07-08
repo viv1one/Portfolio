@@ -11,12 +11,9 @@ const navigation = [
   { name: "Home", href: "/" },
   { name: "About", href: "/about" },
   { name: "Experience", href: "/experience" },
+  { name: "Projects", href: "/projects" },
+  { name: "Blogs", href: "/blogs" },
 ];
-
-type ProfileData = {
-  avatar: string;
-  name: string;
-};
 
 export default function NavbarClient({ profile }: { profile: ProfileData }) {
   const [isScrolled, setIsScrolled] = useState(false);

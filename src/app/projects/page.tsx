@@ -4,19 +4,14 @@ import Link from "next/link";
 import { getPortfolioProjects } from "@lib/content";
 import Image from "next/image";
 import { kebabCase } from "@lib/utils";
+import type { Project } from "@lib/content-types";
 
 interface ProjectProps {
-  project: {
-    imgUrl: string;
-    title: string;
-    desc: string;
-    link: string;
-    tags?: string[];
-  };
+  project: Project;
 }
 
 // Dynamic helper to infer project tags based on keywords in title or desc
-function getProjectTags(project: { title: string; desc: string }) {
+function getProjectTags(project: { title: string; desc: string }): string[] {
   const tags: string[] = [];
   const combined = (project.title + " " + project.desc).toLowerCase();
   
@@ -61,23 +56,24 @@ export default function Projects() {
 
 function Project({ project }: ProjectProps) {
   return (
-    <div className="project-card flex flex-col justify-between overflow-hidden rounded-xl border border-border bg-card p-4 shadow-xs hover:shadow-md transition-all duration-300">
-      <Link href={project.link} target="_blank" className="project-image-wrapper w-full relative rounded-lg overflow-hidden block transition duration-500 hover:scale-[1.01]">
+    <div className="project-card group relative flex flex-col justify-between overflow-hidden rounded-xl border border-border bg-card p-4 shadow-xs hover:border-orange-500/40 hover:shadow-md transition-all duration-300">
+      <Link href={project.link} target="_blank" className="absolute inset-0 z-10" aria-label={project.title}>
+        <span aria-hidden="true" />
+      </Link>
+      <div className="project-image-wrapper w-full relative rounded-lg overflow-hidden">
         <Image
-          className="w-full h-48 object-cover rounded-md"
+          className="w-full h-48 object-cover rounded-md transition duration-500 group-hover:scale-105"
           src={project.imgUrl}
           alt={project.title}
           width={300}
           height={300}
         />
-      </Link>
+      </div>
       <div className="project-info w-full mt-4 flex-1 flex flex-col justify-between">
         <div className="space-y-2">
           <div className="flex items-center justify-between">
-            <Link href={project.link} target="_blank">
-              <h3 className="text-lg font-bold hover:text-orange-500 transition-colors">{project.title}</h3>
-            </Link>
-            <div className="project-links flex gap-2">
+            <h3 className="text-lg font-bold group-hover:text-orange-500 transition-colors">{project.title}</h3>
+            <div className="project-links flex gap-2 relative z-20">
               {project.link && (
                 <Link href={project.link} target="_blank" rel="noreferrer" className="hover:opacity-80 transition-opacity">
                   <Image

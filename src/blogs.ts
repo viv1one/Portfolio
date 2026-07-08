@@ -12,7 +12,7 @@ export interface Post {
   excerpt?: string;
 }
 
-export const postsPerPage = 3 as const;
+export const postsPerPage = 6 as const;
 
 export async function getPosts(): Promise<Post[]> {
   // Retreive slugs from post routes

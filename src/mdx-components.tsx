@@ -7,7 +7,7 @@ import {
   UnorderedList,
   OrderedList,
   ListItem,
-  Image,
+  MDXImage,
   Blockquote,
   CodeBlock,
   InlineCode
@@ -22,7 +22,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     ul: UnorderedList,
     ol: OrderedList,
     li: ListItem,
-    img: Image,
+    img: MDXImage,
     blockquote: Blockquote,
     pre: CodeBlock,
     code: InlineCode,

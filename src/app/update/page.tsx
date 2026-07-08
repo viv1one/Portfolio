@@ -108,7 +108,6 @@ async function handleSubmit(formData: FormData) {
       iconUrl: String(entry.iconUrl ?? ''),
     })),
   };
-  console.log('Payload being saved:', payload);
   try {
     savePortfolioContent(payload);
   } catch (err) {
