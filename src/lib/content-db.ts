@@ -264,77 +264,66 @@ export function savePortfolioContent(content: {
     iconUrl: string;
   }>;
 }) {
-  const tx = (db as any).transaction((payload: any) => {
+  const tx = (db as any).transaction(() => {
     try {
       db.prepare('DELETE FROM profile_descriptions WHERE profile_id = 1').run();
       db.prepare('DELETE FROM profile WHERE id = 1').run();
-      db.prepare(`
-        INSERT INTO profile (
-          id, first_name, name, avatar, github_username, linkedin_url, designation, email, phone,
-          address, about_title, about_current_project, about_current_project_url, resume_url
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-      `).run(
+      db.prepare(` INSERT INTO profile ( id, first_name, name, avatar, github_username, linkedin_url, designation, email, phone, address, about_title, about_current_project, about_current_project_url, resume_url ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) `).run(
         1,
-        payload.profile.firstName,
-        payload.profile.name,
-        payload.profile.avatar,
-        payload.profile.githubUsername,
-        payload.profile.linkedInUrl,
-        payload.profile.designation,
-        payload.profile.email,
-        payload.profile.phone,
-        payload.profile.address,
-        payload.profile.aboutTitle,
-        payload.profile.aboutCurrentProject,
-        payload.profile.aboutCurrentProjectUrl,
-        payload.profile.resumeUrl
+        content.profile.firstName,
+        content.profile.name,
+        content.profile.avatar,
+        content.profile.githubUsername,
+        content.profile.linkedInUrl,
+        content.profile.designation,
+        content.profile.email,
+        content.profile.phone,
+        content.profile.address,
+        content.profile.aboutTitle,
+        content.profile.aboutCurrentProject,
+        content.profile.aboutCurrentProjectUrl,
+        content.profile.resumeUrl
       );
-
-    const insertDescription = db.prepare('INSERT INTO profile_descriptions (profile_id, text, sort_order) VALUES (?, ?, ?)');
-    payload.descriptions.forEach((text: string, index: number) => {
-      const cleanText = text.trim();
-      if (cleanText) {
-        insertDescription.run(1, cleanText, index);
-      }
-    });
-
-    db.prepare('DELETE FROM experiences').run();
-    const insertExperience = db.prepare('INSERT INTO experiences (title, company, year, company_link, description_json, sort_order) VALUES (?, ?, ?, ?, ?, ?)');
-    payload.experiences.forEach((item: Experience, index: number) => {
-      insertExperience.run(
-        item.title,
-        item.company,
-        item.year,
-        item.companyLink,
-        JSON.stringify(item.description),
-        index
-      );
-    });
-
-    db.prepare('DELETE FROM projects').run();
-    const insertProject = db.prepare('INSERT INTO projects (title, link, desc, img_url, sort_order) VALUES (?, ?, ?, ?, ?)');
-    payload.projects.forEach((item: Project, index: number) => {
-      insertProject.run(item.title, item.link, item.desc, item.imgUrl, index);
-    });
-
-    db.prepare('DELETE FROM social_links').run();
-    const insertSocial = db.prepare('INSERT INTO social_links (name, href, link, sort_order) VALUES (?, ?, ?, ?)');
-    payload.socialLinks.forEach((item: SocialLink, index: number) => {
-      insertSocial.run(item.name, item.href, item.link, index);
-    });
-
-    db.prepare('DELETE FROM tech_stack').run();
-    const insertTech = db.prepare('INSERT INTO tech_stack (name, icon_url, sort_order) VALUES (?, ?, ?)');
-    payload.techStack.forEach((item: TechStackItem, index: number) => {
-      insertTech.run(item.name, item.iconUrl, index);
-    });
+      const insertDescription = db.prepare('INSERT INTO profile_descriptions (profile_id, text, sort_order) VALUES (?, ?, ?)');
+      content.descriptions.forEach((text: string, index: number) => {
+        const cleanText = text.trim();
+        if (cleanText) {
+          insertDescription.run(1, cleanText, index);
+        }
+      });
+      db.prepare('DELETE FROM experiences').run();
+      const insertExperience = db.prepare('INSERT INTO experiences (title, company, year, company_link, description_json, sort_order) VALUES (?, ?, ?, ?, ?, ?)');
+      content.experiences.forEach((item: Experience, index: number) => {
+        insertExperience.run(
+          item.title,
+          item.company,
+          item.year,
+          item.companyLink,
+          JSON.stringify(item.description),
+          index
+        );
+      });
+      db.prepare('DELETE FROM projects').run();
+      const insertProject = db.prepare('INSERT INTO projects (title, link, desc, img_url, sort_order) VALUES (?, ?, ?, ?, ?)');
+      content.projects.forEach((item: Project, index: number) => {
+        insertProject.run(item.title, item.link, item.desc, item.imgUrl, index);
+      });
+      db.prepare('DELETE FROM social_links').run();
+      const insertSocial = db.prepare('INSERT INTO social_links (name, href, link, sort_order) VALUES (?, ?, ?, ?)');
+      content.socialLinks.forEach((item: SocialLink, index: number) => {
+        insertSocial.run(item.name, item.href, item.link, index);
+      });
+      db.prepare('DELETE FROM tech_stack').run();
+      const insertTech = db.prepare('INSERT INTO tech_stack (name, icon_url, sort_order) VALUES (?, ?, ?)');
+      content.techStack.forEach((item: TechStackItem, index: number) => {
+        insertTech.run(item.name, item.iconUrl, index);
+      });
     } catch (e) {
       console.error('Transaction error while saving portfolio content:', e);
       throw e;
     }
   });
-
-  tx(content);
+  tx();
 }
 
 export function getProfile() {
