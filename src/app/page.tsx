@@ -16,7 +16,7 @@ export default async function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-linear-to-b from-background via-background/95 to-background/90 text-foreground pt-32 pb-24 px-4 sm:px-6">
+    <div className="min-h-screen bg-gradient-to-b from-background via-background/95 to-background/90 text-foreground pt-32 pb-24 px-4 sm:px-6">
       <div className="max-w-6xl mx-auto space-y-24">
         
         {/* Hero Section */}

@@ -38,6 +38,7 @@ export const metadata: Metadata = {
   
     icons: "/favicon.ico",
   
+    metadataBase: new URL("https://l-fifa-l.github.io"),
 };
 
 export default function RootLayout({

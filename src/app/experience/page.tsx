@@ -19,7 +19,7 @@ function Experience({ experience }: { experience: any[] }) {
         <div key={idx} className="relative group">
           
           {/* Glowing timeline dot */}
-          <div className="absolute -left-[31px] sm:-left-[39px] top-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-background border-2 border-indigo-500 shadow-xs">
+                <div className="absolute -left-7.75 sm:-left-9.75 top-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-background border-2 border-indigo-500 shadow-xs">
             <span className="h-1.5 w-1.5 rounded-full bg-indigo-500 animate-ping group-hover:scale-125 transition-transform" />
           </div>
 

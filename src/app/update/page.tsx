@@ -243,7 +243,7 @@ export default async function UpdatePage({ searchParams }: { searchParams: Promi
   return (
     <PageWrap title="Update Portfolio">
       <div className="mx-auto max-w-5xl px-4 py-10">
-        <div className="mb-8 rounded-xl border border-slate-200 bg-linear-to-r from-slate-50 to-white p-6 dark:border-slate-700 dark:from-slate-800 dark:to-slate-900">
+        <div className="mb-8 rounded-xl border border-slate-200 bg-gradient-to-r from-slate-50 to-white p-6 dark:border-slate-700 dark:from-slate-800 dark:to-slate-900">
           <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <h1 className="text-2xl font-semibold">Manage your portfolio</h1>
