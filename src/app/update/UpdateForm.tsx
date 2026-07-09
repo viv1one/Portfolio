@@ -2,8 +2,16 @@
 // Fixed UpdateFormProps interface and removed stray JSX (build error resolved)
 
 import React, { useState } from "react";
+import { useFormStatus } from "react-dom";
 import { Button } from "@components/ui/button";
 import type { Experience, Project, SocialLink, TechStackItem } from "@lib/content-types";
+
+const generateId = () => {
+  if (typeof crypto !== "undefined" && crypto.randomUUID) {
+    return crypto.randomUUID();
+  }
+  return Date.now().toString(36) + Math.random().toString(36).substring(2);
+};
 
 interface ProfileData {
   firstName: string;
@@ -48,39 +56,36 @@ function SectionHeader({ title, description, emoji }: { title: string; descripti
   );
 }
 
-function InputField({ name, label, defaultValue, placeholder, type = "text" }: { name: string; label: string; defaultValue?: string; placeholder: string; type?: string }) {
+function InputField({ name, label, defaultValue, value, onChange, placeholder, type = "text" }: { name: string; label: string; defaultValue?: string; value?: string; onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void; placeholder: string; type?: string }) {
+  const inputProps = value !== undefined ? { value, onChange } : { defaultValue };
   return (
     <div className="flex flex-col gap-1.5">
       <label htmlFor={name} className="text-sm font-medium text-slate-700 dark:text-slate-300">
         {label}
       </label>
-      <input
-        id={name}
-        name={name}
-        type={type}
-        defaultValue={defaultValue}
-        className="rounded-md border border-slate-300 bg-white px-3 py-2 text-sm shadow-sm transition-colors focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100"
-        placeholder={placeholder}
-      />
+      <input id={name} name={name} type={type} {...inputProps} className="rounded-md border border-slate-300 bg-white px-3 py-2 text-sm shadow-sm transition-colors focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100" placeholder={placeholder} />
     </div>
   );
 }
 
-function TextAreaField({ name, label, defaultValue, placeholder, rows = 4 }: { name: string; label: string; defaultValue?: string; placeholder: string; rows?: number }) {
+function TextAreaField({ name, label, defaultValue, value, onChange, placeholder, rows = 4 }: { name: string; label: string; defaultValue?: string; value?: string; onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void; placeholder: string; rows?: number }) {
+  const textareaProps = value !== undefined ? { value, onChange } : { defaultValue };
   return (
     <div className="flex flex-col gap-1.5">
       <label htmlFor={name} className="text-sm font-medium text-slate-700 dark:text-slate-300">
         {label}
       </label>
-      <textarea
-        id={name}
-        name={name}
-        defaultValue={defaultValue}
-        className="rounded-md border border-slate-300 bg-white px-3 py-2 text-sm shadow-sm transition-colors focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100"
-        placeholder={placeholder}
-        rows={rows}
-      />
+      <textarea id={name} name={name} {...textareaProps} className="rounded-md border border-slate-300 bg-white px-3 py-2 text-sm shadow-sm transition-colors focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100" placeholder={placeholder} rows={rows} />
     </div>
+  );
+}
+
+function SubmitButton() {
+  const { pending } = useFormStatus();
+  return (
+    <Button type="submit" size="lg" className="min-w-[150px]" disabled={pending}>
+      {pending ? "Saving..." : "Save Changes"}
+    </Button>
   );
 }
 
@@ -99,11 +104,11 @@ export default function UpdateForm({
     initialExperiences.length > 0
       ? initialExperiences.map((exp, idx) => ({
           ...exp,
-          clientId: `exp-${idx}-${Date.now()}`,
+          clientId: `exp-${idx}-${generateId()}`,
         }))
       : [
           {
-            clientId: `exp-${Date.now()}`,
+            clientId: `exp-${generateId()}`,
             title: '',
             company: '',
             year: '',
@@ -116,11 +121,11 @@ export default function UpdateForm({
     initialProjects.length > 0
       ? initialProjects.map((proj, idx) => ({
           ...proj,
-          clientId: `proj-${idx}-${Date.now()}`,
+          clientId: `proj-${idx}-${generateId()}`,
         }))
       : [
           {
-            clientId: `proj-${Date.now()}`,
+            clientId: `proj-${generateId()}`,
             title: '',
             link: '',
             desc: '',
@@ -132,11 +137,11 @@ export default function UpdateForm({
     initialSocialLinks.length > 0
       ? initialSocialLinks.map((link, idx) => ({
           ...link,
-          clientId: `link-${idx}-${Date.now()}`,
+          clientId: `link-${idx}-${generateId()}`,
         }))
       : [
           {
-            clientId: `link-${Date.now()}`,
+            clientId: `link-${generateId()}`,
             name: '',
             href: '',
             link: '',
@@ -147,11 +152,11 @@ export default function UpdateForm({
     initialTechStack.length > 0
       ? initialTechStack.map((tech, idx) => ({
           ...tech,
-          clientId: `tech-${idx}-${Date.now()}`,
+          clientId: `tech-${idx}-${generateId()}`,
         }))
       : [
           {
-            clientId: `tech-${Date.now()}`,
+            clientId: `tech-${generateId()}`,
             name: '',
             iconUrl: '',
           },
@@ -162,45 +167,57 @@ export default function UpdateForm({
   const addExperience = () => {
     setExperiences([
       ...experiences,
-      { clientId: `exp-${Date.now()}`, title: "", company: "", year: "", companyLink: "", description: [] },
+      { clientId: `exp-${generateId()}`, title: "", company: "", year: "", companyLink: "", description: [] },
     ]);
   };
 
   const removeExperience = (clientId: string) => {
     setExperiences(experiences.filter((exp) => exp.clientId !== clientId));
   };
+  const updateExperience = (index: number, field: string, value: string) => {
+    setExperiences(experiences.map((exp, i) => (i === index ? { ...exp, [field]: value } : exp)));
+  };
 
   const addProject = () => {
     setProjects([
       ...projects,
-      { clientId: `proj-${Date.now()}`, title: "", link: "", desc: "", imgUrl: "" },
+      { clientId: `proj-${generateId()}`, title: "", link: "", desc: "", imgUrl: "" },
     ]);
   };
 
   const removeProject = (clientId: string) => {
     setProjects(projects.filter((proj) => proj.clientId !== clientId));
   };
+  const updateProject = (index: number, field: string, value: string) => {
+    setProjects(projects.map((proj, i) => (i === index ? { ...proj, [field]: value } : proj)));
+  };
 
   const addSocial = () => {
     setSocialLinks([
       ...socialLinks,
-      { clientId: `link-${Date.now()}`, name: "", href: "", link: "" },
+      { clientId: `link-${generateId()}`, name: "", href: "", link: "" },
     ]);
   };
 
   const removeSocial = (clientId: string) => {
     setSocialLinks(socialLinks.filter((link) => link.clientId !== clientId));
   };
+  const updateSocial = (index: number, field: string, value: string) => {
+    setSocialLinks(socialLinks.map((link, i) => (i === index ? { ...link, [field]: value } : link)));
+  };
 
   const addTech = () => {
     setTechStack([
       ...techStack,
-      { clientId: `tech-${Date.now()}`, name: "", iconUrl: "" },
+      { clientId: `tech-${generateId()}`, name: "", iconUrl: "" },
     ]);
   };
 
   const removeTech = (clientId: string) => {
     setTechStack(techStack.filter((tech) => tech.clientId !== clientId));
+  };
+  const updateTech = (index: number, field: string, value: string) => {
+    setTechStack(techStack.map((tech, i) => (i === index ? { ...tech, [field]: value } : tech)));
   };
 
   return (
@@ -282,19 +299,13 @@ export default function UpdateForm({
                   </Button>
                 </div>
                 <div className="grid gap-4 md:grid-cols-2">
-                  <InputField name={`experiences[${index}][title]`} label="Role or title" defaultValue={item.title} placeholder="Senior Developer" />
-                  <InputField name={`experiences[${index}][company]`} label="Company" defaultValue={item.company} placeholder="Acme Inc." />
-                  <InputField name={`experiences[${index}][year]`} label="Year" defaultValue={item.year} placeholder="2020 - Present" />
-                  <InputField name={`experiences[${index}][companyLink]`} label="Company link" defaultValue={item.companyLink} placeholder="https://..." />
+                  <InputField name={`experiences[${index}][title]`} label="Role or title" value={item.title} onChange={(e) => updateExperience(index, "title", e.target.value)} placeholder="Senior Developer" />
+                  <InputField name={`experiences[${index}][company]`} label="Company" value={item.company} onChange={(e) => updateExperience(index, "company", e.target.value)} placeholder="Acme Inc." />
+                  <InputField name={`experiences[${index}][year]`} label="Year" value={item.year} onChange={(e) => updateExperience(index, "year", e.target.value)} placeholder="2020 - Present" />
+                  <InputField name={`experiences[${index}][companyLink]`} label="Company link" value={item.companyLink} onChange={(e) => updateExperience(index, "companyLink", e.target.value)} placeholder="https://..." />
                 </div>
                 <div className="mt-4">
-                  <TextAreaField
-                    name={`experiences[${index}][description]`}
-                    label="Description"
-                    defaultValue={item.description?.join("\n") ?? ""}
-                    placeholder="Add one bullet per line"
-                    rows={4}
-                  />
+                  <TextAreaField name={`experiences[${index}][description]`} label="Description" value={item.description?.join("\n") ?? ""} onChange={(e) => updateExperience(index, "description", e.target.value)} placeholder="Add one bullet per line" rows={4} />
                 </div>
               </div>
             ))}
@@ -325,15 +336,16 @@ export default function UpdateForm({
                   </Button>
                 </div>
                 <div className="grid gap-4 md:grid-cols-2">
-                  <InputField name={`projects[${index}][title]`} label="Project title" defaultValue={item.title} placeholder="My Project" />
-                  <InputField name={`projects[${index}][link]`} label="Project link" defaultValue={item.link} placeholder="https://..." />
-                  <InputField name={`projects[${index}][imgUrl]`} label="Image URL" defaultValue={item.imgUrl} placeholder="https://..." />
+                  <InputField name={`projects[${index}][title]`} label="Project title" value={item.title} onChange={(e) => updateProject(index, "title", e.target.value)} placeholder="My Project" />
+                  <InputField name={`projects[${index}][link]`} label="Project link" value={item.link} onChange={(e) => updateProject(index, "link", e.target.value)} placeholder="https://..." />
+                  <InputField name={`projects[${index}][imgUrl]`} label="Image URL" value={item.imgUrl} onChange={(e) => updateProject(index, "imgUrl", e.target.value)} placeholder="https://..." />
                 </div>
                 <div className="mt-4">
                   <TextAreaField
                     name={`projects[${index}][desc]`}
                     label="Description"
-                    defaultValue={item.desc}
+                    value={item.desc}
+                    onChange={(e) => updateProject(index, "desc", e.target.value)}
                     placeholder="Short project description"
                     rows={3}
                   />
@@ -367,9 +379,9 @@ export default function UpdateForm({
                   </Button>
                 </div>
                 <div className="grid gap-4 md:grid-cols-2">
-                  <InputField name={`socialLinks[${index}][name]`} label="Label" defaultValue={item.name} placeholder="GitHub" />
-                  <InputField name={`socialLinks[${index}][href]`} label="URL" defaultValue={item.href} placeholder="https://github.com/..." />
-                  <InputField name={`socialLinks[${index}][link]`} label="Icon URL" defaultValue={item.link} placeholder="https://..." />
+                  <InputField name={`socialLinks[${index}][name]`} label="Label" value={item.name} onChange={(e) => updateSocial(index, "name", e.target.value)} placeholder="GitHub" />
+                  <InputField name={`socialLinks[${index}][href]`} label="URL" value={item.href} onChange={(e) => updateSocial(index, "href", e.target.value)} placeholder="https://github.com/..." />
+                  <InputField name={`socialLinks[${index}][link]`} label="Icon URL" value={item.link} onChange={(e) => updateSocial(index, "link", e.target.value)} placeholder="https://..." />
                 </div>
               </div>
             ))}
@@ -400,8 +412,8 @@ export default function UpdateForm({
                   </Button>
                 </div>
                 <div className="grid gap-4 md:grid-cols-2">
-                  <InputField name={`techStack[${index}][name]`} label="Tech name" defaultValue={item.name} placeholder="React" />
-                  <InputField name={`techStack[${index}][iconUrl]`} label="Icon URL" defaultValue={item.iconUrl} placeholder="https://..." />
+                  <InputField name={`techStack[${index}][name]`} label="Tech name" value={item.name} onChange={(e) => updateTech(index, "name", e.target.value)} placeholder="React" />
+                  <InputField name={`techStack[${index}][iconUrl]`} label="Icon URL" value={item.iconUrl} onChange={(e) => updateTech(index, "iconUrl", e.target.value)} placeholder="https://..." />
                 </div>
               </div>
             ))}
@@ -409,11 +421,9 @@ export default function UpdateForm({
         </section>
 
         {/* Sticky Submit Footer */}
-        <div className="sticky bottom-6 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border border-slate-200 dark:border-slate-700 rounded-xl p-4 shadow-lg flex items-center justify-between">
+        <div className="sticky bottom-6 z-10 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border border-slate-200 dark:border-slate-700 rounded-xl p-4 shadow-lg flex items-center justify-between">
           <p className="text-sm text-slate-500">All changes will be published immediately.</p>
-          <Button type="submit" size="lg" className="min-w-[150px]">
-            Save Changes
-          </Button>
+          <SubmitButton />
         </div>
 
       </form>
