@@ -1,13 +1,9 @@
-import { getServerContentData, getServerPortfolioExperiences, getServerPortfolioProfile, getServerPortfolioProjects, getServerPortfolioSocialLinks, getServerPortfolioTechStack, saveServerPortfolioContent } from './content-server';
-import type { PortfolioContent, PortfolioData, ProfileWithAbout, Experience, Project, SocialLink, TechStackItem } from './content-types';
+import { getAllContent, getExperiences, getProfile, getProjects, getSocialLinks, getTechStack, savePortfolioContent } from './content-db';
+import type { PortfolioContent, ProfileWithAbout, Experience, Project, SocialLink, TechStackItem } from './content-types';
 
-export function getContentData(): PortfolioData {
-  return getServerContentData();
-}
-
-export const getPortfolioProfile = (): ProfileWithAbout => getServerPortfolioProfile();
-export const getPortfolioExperiences = (): Experience[] => getServerPortfolioExperiences();
-export const getPortfolioProjects = (): Project[] => getServerPortfolioProjects();
-export const getPortfolioSocialLinks = (): SocialLink[] => getServerPortfolioSocialLinks();
-export const getPortfolioTechStack = (): TechStackItem[] => getServerPortfolioTechStack();
-export const savePortfolioContent = (content: PortfolioContent): void => saveServerPortfolioContent(content);
+export const getPortfolioProfile = (): ProfileWithAbout => getProfile();
+export const getPortfolioExperiences = (): Experience[] => getExperiences();
+export const getPortfolioProjects = (): Project[] => getProjects();
+export const getPortfolioSocialLinks = (): SocialLink[] => getSocialLinks();
+export const getPortfolioTechStack = (): TechStackItem[] => getTechStack();
+export const savePortfolioContent = (content: PortfolioContent): void => savePortfolioContent(content);

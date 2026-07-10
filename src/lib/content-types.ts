@@ -23,7 +23,6 @@ export interface ProfileWithAbout extends Profile {
         currentProject: string;
         currentProjectUrl: string;
     };
-    resumeUrl: string;
 }
 
 export interface Experience {

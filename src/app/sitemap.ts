@@ -2,7 +2,7 @@ import { MetadataRoute } from 'next';
 import { getPosts } from '../blogs';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = 'https://your-domain.com';
+  const baseUrl = 'https://vivone.dev';
   
   const posts = await getPosts();
   
